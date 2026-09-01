@@ -17,3 +17,9 @@
         ⚬  	Quando o usuário clica em "Processar CSV", o Electron faz o POST /api/logs/analisar.
         ⚬	Junto com essa requisiÃ§Ã£o, o Electron envia o token escondido no cabeÃ§alho HTTP (chamado de Authorization: Bearer ).
         ⚬	O Python recebe o arquivo, mas antes de processar, ele lê o cabeçalho. Ele verifica a assinatura digital do token. Se for autêntico e não estiver expirado, ele libera o processamento pesado; se for inválido, ele devolve um erro 401 Unauthorize
+   - Os locais de criação de códigos são os seguintes:
+      - HTML: frontend/public/index.html
+      - CSS: frontend/src/assets/style/index_style/index.css
+      - JS: frontend/src/services/index_services/index.js
+   - Para fins de padronização, todos os arquivos devem conter, primeiramente, o arquivo normalize.css. Nele, o css base vai ser resetado, evitando margem padrão, font do tamanho errado, etc.
+      - frontend/src/assets/style/normalize.css
