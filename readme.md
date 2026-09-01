@@ -1,5 +1,5 @@
 # Data Analyzer
-   - Mini-mundo:
+   - Mini-mundo: Empresas perdem muito tempo e mão de obra analizando logs de suas aplicações/produtos. A partir disso, surgiu a ideia do Data Analyzer, uma aplicação desktop que faz todo o trabalho pesado e retorna relatórios personalizados.
 
 ## Bibliotecas:
 
