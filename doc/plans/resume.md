@@ -25,3 +25,4 @@
                     - repository/           *Onde vai exeutrar os comandos sql
                     - external_services/    *Onde ocorrera a criptografia, gerador jwt e o leitor em lotes otimizados (abrir csv)
                 - presentation/     *Aqui que fica as rotas e onde vai retornar os protocolos http
+                - use_cases/
