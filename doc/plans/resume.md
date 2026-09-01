@@ -16,7 +16,7 @@
 
    - Estrutura de dados: 
         - backend/
-            - app.py
+            - app.py *config do flask
             - config/ *onde vai conectar com o banco, iniciar o electron
             - src/
                 - domain/           *Contém apenas as classes puras do sistema. Eles guardam as entidades e suas validações 
