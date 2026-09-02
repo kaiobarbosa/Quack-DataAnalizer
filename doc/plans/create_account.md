@@ -23,3 +23,48 @@
       - JS: frontend/src/services/index_services/index.js
    - Para fins de padronização, todos os arquivos devem conter, primeiramente, o arquivo normalize.css. Nele, o css base vai ser resetado, evitando margem padrão, font do tamanho errado, etc.
       - frontend/src/assets/style/normalize.css
+
+## Create Account Screen
+  - A tela de login e de criar a conta devera ser a mesma, entretanto, apenas uma funcionalidade devera ser mostrada por vez. O que vai definir a mudanca da tela devera ser um botao (botao caso o usuario ainda nao tenha uma conta.)
+### Login 
+  - O login devera conter duas versoes, uma de pessoa juridica e uma de pessoa fisica. Para saber se a conta é de pessoa física ou pessoa jurídica. Pode ser feito por meio de um button switch onde dependendo da opcao selecionada, diferentes inputs apareceram para tela.
+    - Inputs pessoa fisica:
+      - email ou cpf -> input
+      - senha -> input
+      - esqueceu a senha? -> inove...
+      - não tem uma conta? Cadastre-se. -> inove...
+      - entrar -> button
+      (Ao digitar uma senha, o usuario devera ter a opcao de exibi-la ou nao. O código para isso devera ser escrito no seguinte arquivo frontend/src/utils/show_passwod.js)
+    - Inputs pessoa jurídica:
+      - email ou cnpj -> input
+      - senha -> input
+      - esqueceu a senha? -> inove...
+      - não tem uma conta? Cadastre-se. -> inove...
+      - entrar -> button
+      (Ao digitar uma senha, o usuario devera ter a opcao de exibi-la ou nao. O código para isso devera ser escrito no seguinte arquivo frontend/src/utils/show_passwod.js)
+
+
+### Create Account
+  - Tela de criar uma conta em si, nela deverá seguir os mesmos padrões de css definidos previamente. Para a confecção da tela, devemos pensar nos dados dos quais precisamos para realizar o include no banco de dados.
+    - Saber se a conta é de pessoa física ou pessoa jurídica. Pode ser feito por meio de um button switch onde dependendo da opcao selecionada, diferentes inputs apareceram para tela
+    - É necessário lembrar também que, todos os campos que serão ditos abaixo, deverão conter um input para o usuário digita-los.
+    - Campos necessários: 
+      - Pessoa Física:
+        - Nome -> input
+        - Sobrenome -> input
+        - Função -> dropbox
+        - Departamento -> dropbox
+        - Empresa -> dropbox
+        - Email -> input
+        - Senha -> input
+        - Confirmar senha -> input
+        - Cadastrar -> input
+        (Ao digitar uma senha, o usuario devera ter a opcao de exibi-la ou nao. O código para isso devera ser escrito no seguinte arquivo frontend/src/utils/show_passwod.js)
+      - Pessoa jurídica:
+        - Nome - input
+        - Cnpj - input
+        - Email - input
+        - Senha - input
+        - Confirmar senha -> input
+        - Cadastrar -> input
+        (Ao digitar uma senha, o usuario devera ter a opcao de exibi-la ou nao. O código para isso devera ser escrito no seguinte arquivo frontend/src/utils/show_passwod.js)
