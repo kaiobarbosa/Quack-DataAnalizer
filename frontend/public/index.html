@@ -1,14 +1,186 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="stylesheet" href="../src/assets/style/normalize.css">
-    
-    <title>Electron JS</title>
-</head>
-<body>
-    <h1>Hello Electron!</h1>
-</body>
+    <link rel="stylesheet" href="../src/assets/style/normalize.css" />
+    <link rel="stylesheet" href="../src/assets/style/index_style/index.css" />
+
+    <title>Quack | Login</title>
+  </head>
+  <body>
+    <div class="page-shell">
+      <div class="auth-card">
+        <header class="brand-row">
+          <div class="brand-mark">Q</div>
+          <div class="brand-copy">
+            <span class="brand-kicker">Quack</span>
+            <strong>Analytics</strong>
+          </div>
+        </header>
+
+        <nav class="tab-switch" aria-label="Seleção de autenticação">
+          <button type="button" class="tab-button active" data-panel="login-panel" aria-selected="true">
+            Entrar
+          </button>
+          <button type="button" class="tab-button" data-panel="register-panel" aria-selected="false">
+            Cadastrar
+          </button>
+        </nav>
+
+        <section id="login-panel" class="auth-panel active" role="tabpanel" aria-label="Login">
+          <div class="type-toggle" data-toggle-group="login-type">
+            <button type="button" class="type-button active" data-form="login" data-type="physical" aria-pressed="true">
+              Pessoa física
+            </button>
+            <button type="button" class="type-button" data-form="login" data-type="legal" aria-pressed="false">
+              Pessoa jurídica
+            </button>
+          </div>
+
+          <form id="login-form" class="auth-form">
+            <div class="field login-field" data-form="login" data-type="physical">
+              <label for="login-email-or-cpf">Email ou CPF</label>
+              <input id="login-email-or-cpf" type="text" placeholder="seu@email.com" />
+            </div>
+
+            <div class="field login-field hidden" data-form="login" data-type="legal">
+              <label for="login-email-or-cnpj">Email ou CNPJ</label>
+              <input id="login-email-or-cnpj" type="text" placeholder="00.000.000/0001-00" />
+            </div>
+
+            <div class="field password-field">
+              <label for="login-password">Senha</label>
+              <div class="input-shell">
+                <input id="login-password" type="password" placeholder="Sua senha" />
+                <button type="button" class="password-toggle" data-password-toggle aria-label="Mostrar senha">
+                  👁
+                </button>
+              </div>
+            </div>
+
+            <div class="meta-row">
+              <a href="#">Esqueceu a senha?</a>
+            </div>
+
+            <button type="submit" class="primary-button">Entrar</button>
+
+            <p class="switch-text">
+              Ainda não tem uma conta?
+              <button type="button" class="link-button" data-panel="register-panel">Cadastre-se</button>
+            </p>
+          </form>
+        </section>
+
+        <section id="register-panel" class="auth-panel" role="tabpanel" aria-label="Cadastro" hidden>
+          <div class="type-toggle" data-toggle-group="register-type">
+            <button type="button" class="type-button active" data-form="register" data-type="physical" aria-pressed="true">
+              Pessoa física
+            </button>
+            <button type="button" class="type-button" data-form="register" data-type="legal" aria-pressed="false">
+              Pessoa jurídica
+            </button>
+          </div>
+
+          <form id="register-form" class="auth-form">
+            <div class="register-fields" data-form="register" data-type="physical">
+              <div class="field-row two-columns">
+                <div class="field">
+                  <label for="register-name">Nome</label>
+                  <input id="register-name" type="text" placeholder="Seu nome" />
+                </div>
+
+                <div class="field">
+                  <label for="register-last-name">Sobrenome</label>
+                  <input id="register-last-name" type="text" placeholder="Seu sobrenome" />
+                </div>
+              </div>
+
+              <div class="field-row two-columns">
+                <div class="field">
+                  <label for="register-role">Função</label>
+                  <select id="register-role">
+                    <option value="">Selecione</option>
+                    <option value="analyst">Analista</option>
+                    <option value="manager">Gerente</option>
+                    <option value="support">Suporte</option>
+                    <option value="admin">Administrador</option>
+                  </select>
+                </div>
+
+                <div class="field">
+                  <label for="register-department">Departamento</label>
+                  <select id="register-department">
+                    <option value="">Selecione</option>
+                    <option value="finance">Financeiro</option>
+                    <option value="operations">Operações</option>
+                    <option value="technology">Tecnologia</option>
+                    <option value="human-resources">Recursos humanos</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="register-company">Empresa</label>
+                <select id="register-company">
+                  <option value="">Selecione</option>
+                  <option value="quack">Quack</option>
+                  <option value="partner-one">Partner One</option>
+                  <option value="nova-empresa">Nova Empresa</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="register-fields hidden" data-form="register" data-type="legal">
+              <div class="field">
+                <label for="register-company-name">Nome da empresa</label>
+                <input id="register-company-name" type="text" placeholder="Nome da empresa" />
+              </div>
+
+              <div class="field">
+                <label for="register-cnpj">CNPJ</label>
+                <input id="register-cnpj" type="text" placeholder="00.000.000/0001-00" />
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="register-email">Email</label>
+              <input id="register-email" type="email" placeholder="nome@empresa.com" />
+            </div>
+
+            <div class="field password-field">
+              <label for="register-password">Senha</label>
+              <div class="input-shell">
+                <input id="register-password" type="password" placeholder="Crie uma senha" />
+                <button type="button" class="password-toggle" data-password-toggle aria-label="Mostrar senha">
+                  👁
+                </button>
+              </div>
+            </div>
+
+            <div class="field password-field">
+              <label for="register-confirm-password">Confirmar senha</label>
+              <div class="input-shell">
+                <input id="register-confirm-password" type="password" placeholder="Confirme a senha" />
+                <button type="button" class="password-toggle" data-password-toggle aria-label="Mostrar senha">
+                  👁
+                </button>
+              </div>
+            </div>
+
+            <button type="submit" class="primary-button">Cadastrar</button>
+
+            <p class="switch-text">
+              Já tem uma conta?
+              <button type="button" class="link-button" data-panel="login-panel">Entrar</button>
+            </p>
+          </form>
+        </section>
+      </div>
+    </div>
+
+    <script src="../src/utils/show_password.js"></script>
+    <script src="../src/services/index_services/index.js"></script>
+  </body>
 </html>
