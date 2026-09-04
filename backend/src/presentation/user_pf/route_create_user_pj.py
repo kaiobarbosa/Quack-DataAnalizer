@@ -7,4 +7,4 @@ def insert_user_pj():
     brute_data = request.get_json()
     print(brute_data)
 
-    return jsonify({"message": "User PJ created successfully"}), 201
+    return jsonify({"message": "Data received successfully"}), 201
