@@ -3,7 +3,7 @@
 
 ## Bibliotecas:
 
-   - psycopg2-binary -> driver do PostgreSQL para o python
+   - mysql.connector -> biblioteca responsvavel por conectar o bd com o python
    - Flask-SQLAlchemy -> Ela simplifica a conexão, mapeia as tabelas do banco em classes Python (ORM) e gerencia o ciclo de vida das conexões automaticamente.
 
 

@@ -7,16 +7,18 @@ btn_register.addEventListener("click", async (event) => {
     const cnpj_enterprise = document.getElementById('register-cnpj').value;
     const email_enterprise = document.getElementById('register-email').value;
     const password_enterprise = document.getElementById('register-password').value;
+    const confirm_password_enterprise = document.getElementById('register-confirm-password').value;
 
     const userData = {
         name: name_enterprise,
         cnpj: cnpj_enterprise,
         email: email_enterprise,
-        password: password_enterprise
+        password: password_enterprise,
+        confirm_password: confirm_password_enterprise
     };
 
     try {
-        const response = await fetch('http://127.0.0.1:5000/create_user_pj', {
+        const response = await fetch('http://127.0.0.1:5000/create_enterprise', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -26,10 +28,8 @@ btn_register.addEventListener("click", async (event) => {
 
         const result = await response.json();
 
-        if (response.ok) {
-            alert(result.message || 'Cadastro realizado com sucesso!');
-        } else {
-            alert('Ops! Erro ao cadastrar: ' + (result.erro || 'Verifique os dados'));
+        if (!response.ok) {
+            alert(`Erro: ${result.message}`);
         }
     } catch (error) {
         console.error('Erro de conexão com o servidor:', error);
