@@ -8,9 +8,17 @@
 
 
 ## Organização das pastas e arquivos
+        
+   - Importante: padrão nomeclatura pastas e arquivos:
+      - Arquivos: função + entidade
+        ex.: entity_enterprise.py
 
-    backend/ -> todos os codigos remetentes ao backend e banco de dados
-    frontend/ -> remete ao html, css e js (inicializaçao do electron fica na pasta config/ no backend.)
+
+      - Pastas: entidade + função
+        ex.: enterprise + domain
+
+   backend/ -> todos os codigos remetentes ao backend e banco de dados
+   frontend/ -> remete ao html, css e js (inicializaçao do electron fica na pasta config/ no backend.)
 
 ### Subpastas 
 

@@ -10,6 +10,7 @@ btn_register.addEventListener("click", async (event) => {
     const confirm_password_enterprise = document.getElementById('register-confirm-password').value;
 
     const userData = {
+        id: "",   
         name: name_enterprise,
         cnpj: cnpj_enterprise,
         email: email_enterprise,
