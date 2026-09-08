@@ -79,6 +79,9 @@ async function loginEnterprise() {
 
         if (!response.ok) {
             alert(`Erro: ${result.message}`);
+        }else{
+            console.log('Login de empresa bem-sucedido:', result);
+            window.location.href = 'pages/home.html'; // Redireciona para a página inicial
         }
 
     } catch (error) {

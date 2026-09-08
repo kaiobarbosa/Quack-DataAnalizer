@@ -31,6 +31,9 @@ btn_register.addEventListener("click", async (event) => {
 
         if (!response.ok) {
             alert(`Erro: ${result.message}`);
+        }else {
+            console.log('Cadastro de empresa bem-sucedido:', result);
+            window.location.href = '../public/index.html'; // Redireciona para a página de login
         }
     } catch (error) {
         console.error('Erro de conexão com o servidor:', error);
