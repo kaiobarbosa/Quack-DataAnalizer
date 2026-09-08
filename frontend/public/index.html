@@ -31,10 +31,10 @@
 
         <section id="login-panel" class="auth-panel active" role="tabpanel" aria-label="Login">
           <div class="type-toggle" data-toggle-group="login-type">
-            <button type="button" class="type-button active" data-form="login" data-type="physical" aria-pressed="true">
+            <button type="button" class="type-button active" data-form="login" data-type="physical" aria-pressed="true" id="login-physical-button">
               Pessoa física
             </button>
-            <button type="button" class="type-button" data-form="login" data-type="legal" aria-pressed="false">
+            <button type="button" class="type-button" data-form="login" data-type="legal" aria-pressed="false" id="login-enterprise-button">
               Pessoa jurídica
             </button>
           </div>
@@ -75,10 +75,10 @@
 
         <section id="register-panel" class="auth-panel" role="tabpanel" aria-label="Cadastro" hidden>
           <div class="type-toggle" data-toggle-group="register-type">
-            <button type="button" class="type-button active" data-form="register" data-type="physical" aria-pressed="true">
+            <button type="button" class="type-button active" data-form="register" data-type="physical" aria-pressed="true" id="register-physical-button">
               Pessoa física
             </button>
-            <button type="button" class="type-button" data-form="register" data-type="legal" aria-pressed="false">
+            <button type="button" class="type-button" data-form="register" data-type="legal" aria-pressed="false" id="register-enterprise-button">
               Pessoa jurídica
             </button>
           </div>
@@ -183,5 +183,6 @@
     <script src="../src/utils/show_password.js"></script>
     <script src="../src/services/index_services/index_screen.js"></script>
     <script src="../src/services/index_services/register_account.js"></script>
+    <script src="../src/services/index_services/login_account.js"></script>
   </body>
 </html>
