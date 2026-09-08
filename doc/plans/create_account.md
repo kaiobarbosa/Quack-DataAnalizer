@@ -68,3 +68,10 @@
         - Confirmar senha -> input
         - Cadastrar -> input
         (Ao digitar uma senha, o usuario devera ter a opcao de exibi-la ou nao. O código para isso devera ser escrito no seguinte arquivo frontend/src/utils/show_passwod.js)
+
+### Credenciais pj para teste
+
+nome: Embraer
+cnpj: 07.689.002/0001-89
+email: embraer@gmail.com
+senha: 123123

@@ -8,7 +8,7 @@
    - Divisão do código
         - Frontend: HTML5, CSS3, JavaScript - para funcionar em um ambiente desktop, será utilizado o framework Electron
         - Backend: Python - para conectar frontend com backend será utilizado Flask.
-        - Database: PostgreSQL
+        - Database: MySQL
 
    - Uma interface elegante no Electron onde o usuário arrasta um arquivo de log ou CSV gigante. A aplicação filtra, busca padrões e exibe gráficos de pizza e barras dos erros mais comuns. O backend vai ler o arquivo de forma otimizada (usando buffers de memória), aplicar algoritmos de busca estruturada para filtrar os dados e devolver um resumo em formato JSON para o frontend.
 
@@ -24,5 +24,7 @@
                 - infrastructure/   *Esta é a única camada que tem permissão técnica para conversar com o hd ou bd
                     - repository/           *Onde vai exeutrar os comandos sql
                     - external_services/    *Onde ocorrera a criptografia, gerador jwt e o leitor em lotes otimizados (abrir csv)
-                - presentation/     *Aqui que fica as rotas e onde vai retornar os protocolos http
+                - presentation/
+                    - enterprise/
+                    - user_pf/     *Aqui que fica as rotas e onde vai retornar os protocolos http
                 - use_cases/
