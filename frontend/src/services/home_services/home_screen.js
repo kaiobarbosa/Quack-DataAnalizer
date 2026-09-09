@@ -6,13 +6,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 async function fetchDataEnterprise() {
-
     try {
-        const response = await fetch('http://127.0.0.1:5000/select_enterprise_data', {
+        // Pega o token salvo no login
+        const token = localStorage.getItem('access_token');
+
+        const response = await fetch('http://127.0.0.1:5001/select_enterprise_data', {
             method: 'GET',
-            credentials: 'include',
+            // O credentials: 'include' ainda fica para a Web, não atrapalha o Electron
+            credentials: 'include', 
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                // Envia o token como Bearer (Para o Electron)
+                'Authorization': `Bearer ${token}` 
             }
         });
 

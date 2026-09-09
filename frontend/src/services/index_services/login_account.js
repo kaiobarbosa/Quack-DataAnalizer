@@ -76,14 +76,17 @@ async function loginEnterprise() {
             body: JSON.stringify(enterprise_data)
         });
 
-        const result = await response.json();
+       const result = await response.json();
 
         if (!response.ok) {
             alert(`Erro: ${result.message}`);
-        }else{
-            window.location.href = '../src/pages/home.html'; // Redireciona para a página inicial
+        } else {
+            // SALVA O TOKEN NO APLICATIVO DESKTOP
+            localStorage.setItem('access_token', result.token);
+            
+            console.log('Login bem-sucedido!');
+            window.location.href = '../src/pages/home.html';
         }
-
     } catch (error) {
 
         console.error('Erro de conexão com o servidor:', error);

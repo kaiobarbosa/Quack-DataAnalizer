@@ -14,20 +14,19 @@ def login_enterprise():
     response = make_response(jsonify(response_data))
 
     if status_code == 201:
-        
         payload = {
-            'enterprise_cnpj': response_data.get('enterprise_cnpj'), 
+            'enterprise_cnpj': response_data.get('cnpj'), 
             'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=2)
         }
-
         token = jwt.encode(payload, current_app.config['SECRET_KEY'], algorithm='HS256')
 
-        response.set_cookie(
-            'access_token',
-            value=token,
-            httponly=True,
-            samesite='Lax',
-            secure=False 
-        )
+        # Acopla no cookie (Para a Web)
+        response.set_cookie('access_token', value=token, httponly=True, samesite='Lax', secure=False)
+        
+        # ATUALIZAÇÃO: Envia também no JSON da resposta (Para o Electron)
+        response_data['token'] = token 
+        
+        # Atualiza a resposta com o novo JSON que agora tem o token
+        response.data = jsonify(response_data).data 
 
     return response
