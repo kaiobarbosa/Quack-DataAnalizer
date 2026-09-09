@@ -1,11 +1,6 @@
 from src.domain.enterprise_domain.validation_enterprise.validation_cnpj import validate_cnpj
 from src.infrastructure.external_services.verify_password import verify_password
 
-import os
-from jose import jwt, JWTError
-from datetime import datetime, timedelta, timezone
-
-
 def enterprise_login(data):
 
     if data.get('cnpj') is None or data.get('password') is None:
@@ -18,5 +13,6 @@ def enterprise_login(data):
         return {"message": "Invalid password"}, 401
     else:
         return {
-            "message": "Enterprise login successfully"
+            "message": "Enterprise login successfully",
+            "enterprise_cnpj": data['cnpj']
         }, 201

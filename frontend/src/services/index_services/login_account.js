@@ -69,6 +69,7 @@ async function loginEnterprise() {
 
         const response = await fetch('http://127.0.0.1:5000/login_enterprise', {
             method: 'POST',
+            credentials : 'include', // Inclui cookies na requisição 
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -80,8 +81,7 @@ async function loginEnterprise() {
         if (!response.ok) {
             alert(`Erro: ${result.message}`);
         }else{
-            console.log('Login de empresa bem-sucedido:', result);
-            window.location.href = 'pages/home.html'; // Redireciona para a página inicial
+            window.location.href = '../src/pages/home.html'; // Redireciona para a página inicial
         }
 
     } catch (error) {
