@@ -28,5 +28,7 @@ app.register_blueprint(blueprint_login_enterprise)
 app.register_blueprint(blueprint_select_enterprise_data)
 app.register_blueprint(blueprint_create_department)
 
+#a
+
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
