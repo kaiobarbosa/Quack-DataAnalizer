@@ -74,7 +74,7 @@
 nome: Embraer
 cnpj: 07.689.002/0001-89
 email: embraer@gmail.com
-senha: 123123
+senha: 12312312
 
 ### Create account user PF
   - diferente do usuario pj (empresa) o usuário pf precisa de uma autorizacao para que seja possivel cadatra-lo.

@@ -1,7 +1,14 @@
 /** Renderiza a navegação compartilhada das telas autenticadas. */
 (function () {
+  function setActiveItem(item, items) {
+    items.forEach((navItem) => {
+      navItem.classList.remove("active");
+      navItem.removeAttribute("aria-current");
+    });
 
-  
+    item.classList.add("active");
+    item.setAttribute("aria-current", "page");
+  }
 
   function renderSidebar(containerId) {
     const container = document.getElementById(containerId || "navbar-container");
@@ -14,7 +21,7 @@
           <span class="brand-name">QUACK <small>ANALYTICS</small></span>
         </a>
         <nav class="sidebar-menu">
-          <a id = "home_button" class="nav-item active" href="home.html" aria-current="page"><span class="nav-icon" aria-hidden="true">⌂</span><span>Home</span></a>
+          <a id="home_button" class="nav-item" href="home.html"><span class="nav-icon" aria-hidden="true">⌂</span><span>Home</span></a>
           <a id = "upload_csv_button" class="nav-item" href="#carregar-csv"><span class="nav-icon" aria-hidden="true">↑</span><span>Carregar CSV</span></a>
           <a id = "reports_button" class="nav-item" href="#relatorios"><span class="nav-icon" aria-hidden="true">▤</span><span>Relatórios</span></a>
           <a id = "employees_button" class="nav-item" href="#funcionarios"><span class="nav-icon" aria-hidden="true">⌁</span><span>Funcionários</span></a>
@@ -26,6 +33,19 @@
           <span class="profile-more" aria-hidden="true">•••</span>
         </a>
       </aside>`;
+
+    const navigationItems = [...container.querySelectorAll(".nav-item")];
+    const currentPath = window.location.pathname;
+    const currentPageItem = navigationItems.find((item) => {
+      const itemUrl = new URL(item.href, window.location.href);
+      return !itemUrl.hash && itemUrl.pathname === currentPath;
+    });
+
+    setActiveItem(currentPageItem || navigationItems[0], navigationItems);
+
+    navigationItems.forEach((item) => {
+      item.addEventListener("click", () => setActiveItem(item, navigationItems));
+    });
   }
 
   window.renderSidebar = renderSidebar;

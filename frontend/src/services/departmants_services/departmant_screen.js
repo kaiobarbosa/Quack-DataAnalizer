@@ -133,6 +133,21 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  window.inserirDepartamentoNaLista = function(nomeDoDepartamento) {
+    // 1. Remove a mensagem de "Ainda não há departamentos" (se existir)
+    list.querySelector("#empty-state")?.remove();
+    
+    // 2. Cria a linha visual do departamento
+    const novaLinha = createDepartmentRow(nomeDoDepartamento);
+    
+    // 3. Adiciona a linha na lista da tela
+    list.append(novaLinha);
+    
+    // 4. Atualiza o contador de departamentos (ex: "2 departamentos")
+    updateCount();
+  };
+
   toggleSaveButton();
   updateCount();
+
 });

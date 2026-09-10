@@ -27,6 +27,7 @@ button_include_deparment.addEventListener("click", async (event) => {
         
         if (response.ok) {
             alert("Departamento salvo com sucesso!");
+            location.reload()
         } else {
             alert(`Erro: ${result.message}`);
         }
