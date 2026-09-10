@@ -15,6 +15,70 @@
 
     <div id="navbar-container"></div>
 
+    <main class="employees-page" aria-labelledby="employees-title">
+        <section class="users-view" aria-labelledby="employees-title">
+            <header class="users-header">
+                <div>
+                    <p class="eyebrow">GESTÃO DE EQUIPE</p>
+                    <h1 id="employees-title">Funcionários</h1>
+                    <p class="header-description">Gerencie os usuários autorizados da sua empresa.</p>
+                </div>
+                <button class="requests-trigger" id="open-requests-button" type="button" aria-expanded="false" aria-controls="requests-panel">
+                    <span class="requests-icon" aria-hidden="true">⌁</span>
+                    Solicitações
+                    <span class="requests-badge" id="requests-badge">0</span>
+                </button>
+            </header>
+
+            <section class="users-list-section" aria-labelledby="users-list-title">
+                <div class="list-heading">
+                    <div>
+                        <h2 id="users-list-title">Usuários existentes</h2>
+                        <p id="users-count" aria-live="polite">0 usuários</p>
+                    </div>
+                </div>
+                <div class="users-list" id="users-list" aria-live="polite">
+                    <div class="empty-state" id="users-empty-state">
+                        <span class="empty-icon" aria-hidden="true">◌</span>
+                        <h3>Nenhum usuário cadastrado.</h3>
+                        <p>Os colaboradores aprovados aparecerão nesta área.</p>
+                    </div>
+                </div>
+            </section>
+        </section>
+
+        <section class="requests-panel" id="requests-panel" aria-labelledby="requests-title" aria-hidden="true">
+            <header class="requests-header">
+                <div>
+                    <p class="eyebrow">PENDÊNCIAS</p>
+                    <h2 id="requests-title">Solicitações de novos usuários</h2>
+                    <p>Revise e autorize os cadastros para sua empresa.</p>
+                </div>
+                <button class="close-button" id="close-requests-button" type="button" aria-label="Fechar solicitações">×</button>
+            </header>
+
+            <div class="requests-list" id="requests-list" aria-live="polite">
+                <div class="empty-state" id="requests-empty-state">
+                    <span class="empty-icon" aria-hidden="true">✓</span>
+                    <h3>Sem requisições</h3>
+                    <p>Não há solicitações pendentes para aprovação.</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="confirmation-dialog" id="rejection-dialog" role="dialog" aria-modal="true" aria-labelledby="rejection-title" hidden>
+            <div class="dialog-card">
+                <span class="dialog-icon" aria-hidden="true">!</span>
+                <h2 id="rejection-title">Recusar solicitação?</h2>
+                <p>Esta ação removerá a solicitação de cadastro pendente.</p>
+                <div class="dialog-actions">
+                    <button class="secondary-button" id="cancel-rejection-button" type="button">Cancelar</button>
+                    <button class="danger-button" id="confirm-rejection-button" type="button">Confirmar rejeição</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
     <script src="../components/navbar.js"></script>
     <script src="../services/employees_services/employees_screen.js"></script>
 
