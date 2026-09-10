@@ -10,12 +10,13 @@ def login_enterprise():
     brute_data = request.get_json()
 
     response_data, status_code = enterprise_login(brute_data)
+    print(f"Response Data: {response_data}")
 
     response = make_response(jsonify(response_data))
 
     if status_code == 201:
         payload = {
-            'enterprise_cnpj': response_data.get('cnpj'), 
+            'enterprise_cnpj': response_data.get('enterprise_cnpj'), 
             'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=2)
         }
         token = jwt.encode(payload, current_app.config['SECRET_KEY'], algorithm='HS256')

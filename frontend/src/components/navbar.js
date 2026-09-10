@@ -1,5 +1,8 @@
 /** Renderiza a navegação compartilhada das telas autenticadas. */
 (function () {
+
+  
+
   function renderSidebar(containerId) {
     const container = document.getElementById(containerId || "navbar-container");
     if (!container) return;
@@ -13,7 +16,7 @@
         <nav class="sidebar-menu">
           <a id = "home_button" class="nav-item active" href="home.html" aria-current="page"><span class="nav-icon" aria-hidden="true">⌂</span><span>Home</span></a>
           <a id = "upload_csv_button" class="nav-item" href="#carregar-csv"><span class="nav-icon" aria-hidden="true">↑</span><span>Carregar CSV</span></a>
-          <a id = "analysis_button" class="nav-item" href="#analise"><span class="nav-icon" aria-hidden="true">⌁</span><span>Análise</span></a>
+          <a id = "employees_button" class="nav-item" href="#funcionarios"><span class="nav-icon" aria-hidden="true">⌁</span><span>Funcionários</span></a>
           <a id = "reports_button" class="nav-item" href="#relatorios"><span class="nav-icon" aria-hidden="true">▤</span><span>Relatórios</span></a>
         </nav>
         <a id="profile-button" class="profile-button" href="#perfil">

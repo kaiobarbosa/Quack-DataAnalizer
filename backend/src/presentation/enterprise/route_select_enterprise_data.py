@@ -8,6 +8,8 @@ blueprint_select_enterprise_data = Blueprint('blueprint_select_enterprise_data',
 @token_obrigatorio  # <-- Coloque o decorador AQUI (sempre abaixo do @route)
 def select_enterprise_data(dados_token):
     
+    print(f'Dados do token decodificado: {dados_token}')  # Adicione esta linha para depuração
+    
     cnpj_logado = dados_token.get('enterprise_cnpj')
 
     print(f'CNPJ que fez a requisição: {cnpj_logado}')
