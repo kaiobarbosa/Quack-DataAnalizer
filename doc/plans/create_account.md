@@ -75,3 +75,32 @@ nome: Embraer
 cnpj: 07.689.002/0001-89
 email: embraer@gmail.com
 senha: 123123
+
+### Create account user PF
+  - diferente do usuario pj (empresa) o usuário pf precisa de uma autorizacao para que seja possivel cadatra-lo.
+    - Empresa que faz essa autorizacao.
+    - para um usuario pf se cadastrar, alem da empresa precisar autorizar a criação da conta, a empresa tera que ter criado previamente setores para que o usuario faça parte (necessario informar o setor quando tiver criando a conta).
+
+  - Primeiros passo para criar a conta do usuario pf: Criar a tela de cadastro de departamento
+  - Segundo passo para criar a conta do usuario pf: criar a tela para aprovar e gerenciar os usuario pf (funcionarios)
+
+#### Create new departmant screen
+
+##### Warning/Rules
+  - ignorar o folder de backend. Deverá ser construido apenas o frontend (html e css (js apenas quando necessário))
+  - Ao iniciar o cadastro de um novo departamento, o botao de inclusao devera ser habilitado apenas se tiver algo digitado no input. Enquanto for nulo, deverá ficar desabilitado
+
+  - Campos necessários: 
+    - Name_departmant -> input
+    - Enterprise_departmant -> via backend
+    - ID_departmant -> via backend
+  - Embora haja 3 campos a serem preenchidos no cadastro de um novo departamento, apenas uma tera na tela, as demais serao importadas do backend posteriormente ao preenchimento do input do usuario.
+  - A tela de departamentos/ criar novos departamentos, sera um blend de funcionalidades. Alem do cadastro, a pagina em si servirá para administrar os departamentos existentes. Para isso a tela sera dividida em duas partes. Header e body.
+    - Header: devera ter um width que cobre a tela toda (nao ignorar a sidebar), já o height pequeno.
+      - conterá um botao para criar um novo departamento. 
+      - o botão deverá ficar no lado direito.
+      - Ao clicar o botao, e header deverá ter seu height aumentado e que fique visivel, no próprio header, um input para incluir o nome do departamento. 
+    - Body: Servirá para listar os departamentos existentes, contendo uma opcao em cada elemento dessa lista (cada departamento) uma opcao para editar ou inativar o departamento específico.
+      - Ao listar os departamentos, caso a quantidade de elementos listados seja grande e nao caiba na tela, nao devera ser criado uma scrollbar geral na pagina, devera ser criado uma scrollbar apenas na area dos departamentos listados. Para isso os elementos deverão estar em uma div que engloba todos os elementos da lista.
+      - Essa listada ja deve ser criada pensando que a quantidade de elementos na lista, vai ser variada, e devera ser projetada para que seja incluid0, a partir do retorno dos dados via backend, todos os departamentos existentes no banco de dados.
+      - de maneira inicial, nao havera departamentos criados... Nesse caso, quando não houver departamentos criados, na div de listagem devera ser exibida a seguinte mensagem "Ainda não há departamentos criados.". Essa mensagem pode ser criada de maneira estática, via html mesmo.
