@@ -9,3 +9,13 @@ def entity_enterprise(data):
     )
 
     return enterprise
+
+def entity_enterprise_home(data):
+
+    enterprise = (
+        data.get("name_enterprise"), 
+        data.get("cnpj_enterprise"), 
+        data.get("email_enterprise"), 
+    )
+
+    return enterprise

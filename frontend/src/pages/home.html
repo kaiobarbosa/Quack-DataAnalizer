@@ -3,9 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QUACK - Home</title>
+
+    <link rel="stylesheet" href="../assets/style/normalize.css">
+    <link rel="stylesheet" href="../assets/style/home_style/home.css">
+
+    <title>Quack | Home</title>
 </head>
 <body>
-    
+
+    <div id="navbar-container"></div>
+    <main class="dashboard" aria-labelledby="dashboard-title">
+      <header class="dashboard-header">
+        <div><p class="eyebrow">VISÃO GERAL</p><h1 id="dashboard-title">Olá, user <span aria-hidden="true">👋</span></h1><p>Acompanhe a atividade e os principais eventos dos seus arquivos.</p></div>
+        <button class="upload-button" type="button">+ Carregar arquivo</button>
+      </header>
+      <section class="body-upper" aria-label="Resumo da conta">
+        <article class="metric-card files"><b>▤</b><div><span>Arquivos processados</span><strong>128</strong><small>+12% neste mês</small></div></article>
+        <article class="metric-card errors"><b>!</b><div><span>Total de erros</span><strong>2.847</strong><small>Últimos 30 dias</small></div></article>
+        <article class="metric-card warnings"><b>△</b><div><span>Total de avisos</span><strong>1.239</strong><small>Últimos 30 dias</small></div></article>
+        <article class="metric-card reports"><b>◫</b><div><span>Relatórios gerados</span><strong>36</strong><small>+4 esta semana</small></div></article>
+      </section>
+      <section class="body-middle">
+        <article class="panel activity"><div class="panel-heading"><div><h2>Atividade - Últimas 24h</h2><p>Eventos identificados no arquivo selecionado</p></div><button class="more-button" aria-label="Mais opções">•••</button></div><div class="chart-file">● server_logs_2025-04-18.csv</div><div class="line-chart" role="img" aria-label="Gráfico de atividade nas últimas 24 horas"><svg viewBox="0 0 720 230" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="area" x1="0" x2="0" y1="0" y2="1"><stop stop-color="#38bdf8" stop-opacity=".35"/><stop offset="1" stop-color="#38bdf8" stop-opacity="0"/></linearGradient></defs><path class="grid" d="M0 20H720M0 88H720M0 156H720M0 224H720"/><path class="area" d="M0 192L44 178L88 188L132 132L176 148L220 101L264 128L308 86L352 109L396 54L440 91L484 67L528 117L572 79L616 96L660 38L720 69V230H0Z"/><path class="line" d="M0 192L44 178L88 188L132 132L176 148L220 101L264 128L308 86L352 109L396 54L440 91L484 67L528 117L572 79L616 96L660 38L720 69"/></svg><div class="hours"><span>00h</span><span>04h</span><span>08h</span><span>12h</span><span>16h</span><span>20h</span><span>Agora</span></div></div></article>
+        <article class="panel recent"><div class="panel-heading"><div><h2>Arquivos recentes</h2><p>Últimos arquivos enviados</p></div><a href="#todos">Ver todos</a></div><ul><li><i>CSV</i><div><strong>server_logs_2025-04-18.csv</strong><small>Hoje, 10:42 · 24,8 MB</small></div><em>Processado</em></li><li><i>JSON</i><div><strong>api_events_2025-04-17.json</strong><small>Ontem, 18:20 · 12,3 MB</small></div><em>Processado</em></li><li><i>CSV</i><div><strong>access_log_2025-04-16.csv</strong><small>16 abr, 14:05 · 8,7 MB</small></div><em class="pending">Analisando</em></li></ul></article>
+      </section>
+      <section class="body-low">
+        <article class="panel severity"><div class="panel-heading"><div><h2>Severidade reportada</h2><p>Distribuição dos eventos encontrados</p></div></div><div class="severity-content"><div class="donut" role="img" aria-label="Crítico 18%, Alto 32%, Médio 35%, Baixo 15%"><div><strong>2.847</strong><small>eventos</small></div></div><ul><li><i class="critical"></i>Crítico <b>18%</b></li><li><i class="high"></i>Alto <b>32%</b></li><li><i class="medium"></i>Médio <b>35%</b></li><li><i class="low"></i>Baixo <b>15%</b></li></ul></div></article>
+        <article class="panel top-errors"><div class="panel-heading"><div><h2>Top erros por tipo</h2><p>Ocorrências no arquivo mais recente</p></div></div><div class="error-bars"><div><span>TimeoutException</span><i style="--bar:88%"></i><b>842</b></div><div><span>NullPointerException</span><i style="--bar:66%"></i><b>631</b></div><div><span>ConnectionRefused</span><i style="--bar:49%"></i><b>468</b></div><div><span>InvalidToken</span><i style="--bar:34%"></i><b>319</b></div><div><span>DatabaseError</span><i style="--bar:21%"></i><b>201</b></div></div></article>
+      </section>
+    </main>
+
+    <script src="../components/navbar.js"></script>
+    <script src="../services/home_services/home_screen.js"></script>
+
 </body>
 </html>

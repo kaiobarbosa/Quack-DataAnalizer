@@ -69,21 +69,24 @@ async function loginEnterprise() {
 
         const response = await fetch('http://127.0.0.1:5000/login_enterprise', {
             method: 'POST',
+            credentials : 'include', // Inclui cookies na requisição 
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(enterprise_data)
         });
 
-        const result = await response.json();
+       const result = await response.json();
 
         if (!response.ok) {
             alert(`Erro: ${result.message}`);
-        }else{
-            console.log('Login de empresa bem-sucedido:', result);
-            window.location.href = 'pages/home.html'; // Redireciona para a página inicial
+        } else {
+            // SALVA O TOKEN NO APLICATIVO DESKTOP
+            localStorage.setItem('access_token', result.token);
+            
+            console.log('Login bem-sucedido!');
+            window.location.href = '../src/pages/home.html';
         }
-
     } catch (error) {
 
         console.error('Erro de conexão com o servidor:', error);
