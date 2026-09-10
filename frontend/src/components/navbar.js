@@ -16,8 +16,9 @@
         <nav class="sidebar-menu">
           <a id = "home_button" class="nav-item active" href="home.html" aria-current="page"><span class="nav-icon" aria-hidden="true">⌂</span><span>Home</span></a>
           <a id = "upload_csv_button" class="nav-item" href="#carregar-csv"><span class="nav-icon" aria-hidden="true">↑</span><span>Carregar CSV</span></a>
-          <a id = "employees_button" class="nav-item" href="#funcionarios"><span class="nav-icon" aria-hidden="true">⌁</span><span>Funcionários</span></a>
           <a id = "reports_button" class="nav-item" href="#relatorios"><span class="nav-icon" aria-hidden="true">▤</span><span>Relatórios</span></a>
+          <a id = "employees_button" class="nav-item" href="#funcionarios"><span class="nav-icon" aria-hidden="true">⌁</span><span>Funcionários</span></a>
+          <a id = "departments_button" class="nav-item" href="departmants.html"><span class="nav-icon" aria-hidden="true">⌁</span><span>Departamentos</span></a>
         </nav>
         <a id="profile-button" class="profile-button" href="#perfil">
           <span class="profile-avatar" aria-hidden="true">U</span>

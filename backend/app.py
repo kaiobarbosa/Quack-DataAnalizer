@@ -10,6 +10,8 @@ from src.presentation.enterprise.route_create_enterprise import blueprint_create
 from src.presentation.enterprise.login_enterprise_route import blueprint_login_enterprise
 from src.presentation.enterprise.route_select_enterprise_data import blueprint_select_enterprise_data
 
+from src.presentation.department.route_create_department import blueprint_create_department
+
 app = Flask(__name__)
 
 # ATENÇÃO: supports_credentials=True é OBRIGATÓRIO para o navegador aceitar cookies via API
@@ -24,6 +26,9 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.register_blueprint(blueprint_create_enterprise)
 app.register_blueprint(blueprint_login_enterprise)
 app.register_blueprint(blueprint_select_enterprise_data)
+app.register_blueprint(blueprint_create_department)
+
+#a
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)

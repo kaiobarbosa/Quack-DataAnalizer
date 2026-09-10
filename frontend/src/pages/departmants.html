@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="../assets/style/normalize.css">
+    <link rel="stylesheet" href="../assets/style/departmants_style/departmants.css">
+    <link rel="stylesheet" href="../assets/style/sidebar.css">
+
+    <title>QUACK - Departamentos</title>
+</head>
+<body>
+    
+    <div id="navbar-container"></div>
+
+    <main class="departments-page" aria-labelledby="departments-title">
+        <header class="departments-header" id="departments-header">
+            <div class="header-summary">
+                <div>
+                    <p class="eyebrow">ADMINISTRAÇÃO</p>
+                    <h1 id="departments-title">Departamentos</h1>
+                    <p class="header-description">Organize os setores que fazem parte da sua empresa.</p>
+                </div>
+                <button class="primary-button create-trigger" id="create-department-button" type="button" aria-expanded="false" aria-controls="department-form">
+                    <span aria-hidden="true">+</span>
+                    Novo departamento
+                </button>
+            </div>
+
+            <form class="department-form" id="department-form" novalidate>
+                <label for="department-name">Nome do departamento</label>
+                <div class="form-controls">
+                    <input id="department-name" name="name_departmant" type="text" autocomplete="off" placeholder="Ex.: Tecnologia" maxlength="80" />
+                    <button class="secondary-button" id="cancel-department-button" type="button">Cancelar</button>
+                    <button class="primary-button" id="save-department-button" type="submit" disabled>Incluir departamento</button>
+                </div>
+                <p class="form-hint">A empresa e o identificador do departamento serão vinculados automaticamente.</p>
+            </form>
+        </header>
+
+        <section class="departments-body" aria-labelledby="departments-list-title">
+            <div class="list-heading">
+                <div>
+                    <h2 id="departments-list-title">Departamentos cadastrados</h2>
+                    <p id="departments-count" aria-live="polite">0 departamentos</p>
+                </div>
+            </div>
+
+            <div class="department-list" id="department-list" aria-live="polite">
+                <div class="empty-state" id="empty-state">
+                    <span class="empty-icon" aria-hidden="true">▦</span>
+                    <h3>Ainda não há departamentos criados.</h3>
+                    <p>Use o botão “Novo departamento” para adicionar o primeiro setor.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="../services/departmants_services/departmant_screen.js"></script>
+    <script src="../services/departmants_services/register_deparmant.js"></script>
+    <script src="../components/navbar.js"></script>
+
+</body>
+</html>
