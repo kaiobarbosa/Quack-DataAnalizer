@@ -4,6 +4,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const linkButtons = document.querySelectorAll(".link-button");
   const typeButtons = document.querySelectorAll(".type-button");
 
+  load_enterprises()
+
   const changePanel = (panelId) => {
     panels.forEach((panel) => {
       const isActive = panel.id === panelId;
@@ -76,3 +78,26 @@ document.addEventListener("DOMContentLoaded", () => {
     window.initPasswordToggles();
   }
 });
+
+async function load_enterprises() {
+
+  try{
+
+    const response = await fetch('http://127.0.0.1:5000/select_enterprise_exist', {
+        method: 'GET',
+        // O credentials: 'include' ainda fica para a Web, não atrapalha o Electron
+        credentials: 'include', 
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    });
+
+    const result = await response.json();
+    console.log(result)
+
+  }catch{
+    console.error('Erro de conexão com o servidor:', error);
+    alert('Não foi possível conectar ao servidor. Verifique se o Flask está rodando.');
+  }
+  
+}
