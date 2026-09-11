@@ -13,6 +13,7 @@ from src.presentation.enterprise.route_select_all_enterprises import blueprint_s
 
 from src.presentation.department.route_create_department import blueprint_create_department
 from src.presentation.department.route_select_all_departments import blueprint_select_all_departments
+from src.presentation.department.route_get_departments_by_enterprise import blueprint_select_departments_by_enterprise
 
 app = Flask(__name__)
 
@@ -31,6 +32,7 @@ app.register_blueprint(blueprint_select_enterprise_data)
 app.register_blueprint(blueprint_create_department)
 app.register_blueprint(blueprint_select_all_departments)
 app.register_blueprint(blueprint_select_all_enterprises)
+app.register_blueprint(blueprint_select_departments_by_enterprise)
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)

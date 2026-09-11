@@ -81,6 +81,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function load_enterprises() {
 
+  const selectEnterprise = document.getElementById('register-company')
+
   try{
 
     const response = await fetch('http://127.0.0.1:5000/select_enterprise_exist', {
@@ -93,11 +95,82 @@ async function load_enterprises() {
     });
 
     const result = await response.json();
-    console.log(result)
 
-  }catch{
+    selectEnterprise.innerHTML = '<option value="">Selecione</option>';
+
+    const listaEnterprise = result.entitys || result;
+
+    if (Array.isArray(listaEnterprise)) {
+        listaEnterprise.forEach(Empresa => {
+            const option = document.createElement('option');
+            
+            option.value = Empresa.cnpj_enterprise;    
+            option.textContent = Empresa.name_enterprise; 
+            
+            selectEnterprise.appendChild(option);
+        });
+    } else {
+        console.error("Formato inesperado: os dados não contêm um array.", result);
+    }
+
+  }catch (error){
     console.error('Erro de conexão com o servidor:', error);
     alert('Não foi possível conectar ao servidor. Verifique se o Flask está rodando.');
   }
   
 }
+
+const selectEnterprise = document.getElementById('register-company');
+const selectDepartamento = document.getElementById('register-department');
+
+// Fica escutando qualquer mudança no select de departamentoss
+selectEnterprise.addEventListener('change', async (event) => {
+    
+    // Pega o CNPJ da departamentos que o usuário acabou de selecionar
+    const cnpjSelecionado = event.target.value;
+    
+    // Reseta o select de departamentos (caso ele troque de departamentos, os departamentos antigos somem)
+    selectDepartamento.innerHTML = '<option value="">Selecione o departamento</option>';
+
+    if (!cnpjSelecionado) {
+        selectDepartamento.disabled = true; 
+        return; 
+    }
+
+    selectDepartamento.disabled = false;
+
+        try {
+        const response = await fetch(`http://127.0.0.1:5000/get_departments_by_enterprise`, {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            // Se o backend está aceitando apenas a string (como parece ser o caso pelo seu log), mantenha assim. 
+            // Se der erro de requisição depois, lembre-se de passar o objeto: body: JSON.stringify({"cnpj": cnpjSelecionado})
+            body: JSON.stringify(cnpjSelecionado)
+        });
+
+        const result = await response.json();
+
+        // CORREÇÃO 1: Mudando de 'entitys' para 'entity'
+        const listaDepartamentos = result.entity || result;
+        console.log(listaDepartamentos);
+
+        if (Array.isArray(listaDepartamentos)) {
+            listaDepartamentos.forEach(departamento => { // mudei para singular aqui para ficar mais semântico
+                const option = document.createElement('option');
+                
+                option.value = departamento.id_departmant;    
+                option.textContent = departamento.name_departmant; 
+                
+                // CORREÇÃO 2: Nome exato da variável (D maiúsculo, sem s)
+                selectDepartamento.appendChild(option);
+            });
+        } else {
+            console.error("Formato inesperado: os dados não contêm um array.", result);
+        }
+    } catch (error) {
+        console.error('Erro ao carregar departamentos:', error);
+    }
+});
