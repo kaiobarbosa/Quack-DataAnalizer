@@ -1,8 +1,14 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const users = [];
-  const requests = [];
-  let requestPendingRejection = null;
+  // =========================================================================
+  // 1. ESTADOS DA APLICAÇÃO (Variáveis globais da tela)
+  // =========================================================================
+  const users = []; // Guarda os funcionários já aprovados
+  const requests = []; // Guarda as solicitações de novas contas (vindos do backend)
+  let requestPendingRejection = null; // Guarda o ID do usuário que estamos prestes a rejeitar
 
+  // =========================================================================
+  // 2. REFERÊNCIAS DO DOM (Elementos do HTML)
+  // =========================================================================
   const usersList = document.getElementById("users-list");
   const requestsList = document.getElementById("requests-list");
   const usersCount = document.getElementById("users-count");
@@ -14,6 +20,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const cancelRejectionButton = document.getElementById("cancel-rejection-button");
   const confirmRejectionButton = document.getElementById("confirm-rejection-button");
 
+  // =========================================================================
+  // 3. FUNÇÕES AUXILIARES (Helpers)
+  // =========================================================================
+  
+  // Pega a primeira letra do nome e do sobrenome para fazer o ícone redondo
   function initials(person) {
     return [person.name, person.lastName]
       .filter(Boolean)
@@ -22,6 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
       .toUpperCase() || "U";
   }
 
+  // Função utilitária que encurta a criação de elementos HTML (tags) no JS
   function createElement(tag, className, content) {
     const element = document.createElement(tag);
     if (className) element.className = className;
@@ -29,21 +41,28 @@ document.addEventListener("DOMContentLoaded", () => {
     return element;
   }
 
+  // Função utilitária específica para criar botões de ação (Aceitar, Rejeitar, Detalhes)
+  // O "data.action" é fundamental aqui, pois ele vai dizer ao evento de clique o que esse botão faz
   function actionButton(label, action, className) {
     const button = createElement("button", className || "action-button", label);
     button.type = "button";
-    button.dataset.action = action;
+    button.dataset.action = action; 
     return button;
   }
 
+  // Atualiza os números na tela (quantidade de funcionários e selo vermelho de notificações)
   function updateCounters() {
     usersCount.textContent = `${users.length} ${users.length === 1 ? "usuário" : "usuários"}`;
     requestsBadge.textContent = requests.length;
   }
 
+  // =========================================================================
+  // 4. RENDERIZAÇÃO: FUNCIONÁRIOS ATIVOS
+  // =========================================================================
   function renderUsers() {
-    usersList.replaceChildren();
+    usersList.replaceChildren(); // Limpa a lista atual para não duplicar
 
+    // Estado vazio: se não tem ninguém, mostra a mensagem bonitinha
     if (!users.length) {
       const emptyState = createElement("div", "empty-state");
       emptyState.id = "users-empty-state";
@@ -53,6 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
+    // Se tem usuários, cria um "card" (linha) para cada um
     users.forEach((user) => {
       const row = createElement("article", "user-row");
       row.dataset.id = user.id;
@@ -60,6 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const mark = createElement("span", "user-mark", initials(user));
       mark.setAttribute("aria-hidden", "true");
+      
       const info = createElement("div", "user-info");
       info.append(
         createElement("strong", "", `${user.name} ${user.lastName}`.trim()),
@@ -70,6 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const details = createElement("div", "user-details", `E-mail: ${user.email}`);
       details.hidden = true;
       details.style.gridColumn = "2 / -1";
+      
       const actions = createElement("div", "user-actions");
       actions.append(
         actionButton("Detalhes", "toggle-details"),
@@ -78,14 +100,17 @@ document.addEventListener("DOMContentLoaded", () => {
       );
 
       row.append(mark, info, actions, details);
-      usersList.append(row);
+      usersList.append(row); // Adiciona o card finalizado na tela
     });
 
     updateCounters();
   }
 
+  // =========================================================================
+  // 5. RENDERIZAÇÃO: SOLICITAÇÕES PENDENTES (AQUI É O SEU FOCO ATUAL)
+  // =========================================================================
   function renderRequests() {
-    requestsList.replaceChildren();
+    requestsList.replaceChildren(); // Limpa as solicitações antigas
 
     if (!requests.length) {
       const emptyState = createElement("div", "empty-state");
@@ -96,23 +121,29 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
+    // Passa por cada pedido recebido do banco de dados
     requests.forEach((request) => {
+      // ➔ AQUI É CRIADO O ELEMENTO PRINCIPAL COMO UM TODO (O Card do Pedido)
       const card = createElement("article", "request-card");
-      card.dataset.id = request.id;
+      card.dataset.id = request.id; 
+      
       const main = createElement("div", "request-main");
       const mark = createElement("span", "request-mark", initials(request));
       mark.setAttribute("aria-hidden", "true");
+      
       const summary = createElement("div");
       summary.append(createElement("strong", "request-name", `${request.name} ${request.lastName}`.trim()));
+      
       const metadata = createElement("div", "request-summary");
       metadata.append(createElement("span", "", request.role), createElement("span", "", request.department));
       summary.append(metadata);
 
+      // ➔ AQUI SÃO CRIADOS OS BOTÕES DE AÇÃO DO CARD
       const actions = createElement("div", "request-actions");
       actions.append(
-        actionButton("Ver detalhes", "toggle-details"),
-        actionButton("Aceitar", "approve", "approve-button"),
-        actionButton("Rejeitar", "reject", "danger-button")
+        actionButton("Ver detalhes", "toggle-details"), // Botão de detalhes
+        actionButton("Aceitar", "approve", "approve-button"), // Botão de Aceitar (tem a action "approve")
+        actionButton("Rejeitar", "reject", "danger-button")   // Botão de Rejeitar (tem a action "reject")
       );
 
       const details = createElement("div", "request-details");
@@ -127,12 +158,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
       main.append(mark, summary, actions);
       card.append(main, details);
+      
+      // Joga o card montado pra dentro do HTML real
       requestsList.append(card);
     });
 
     updateCounters();
   }
 
+  // =========================================================================
+  // 6. CONTROLE DE MODAIS E PAINÉIS
+  // =========================================================================
   function openRequests() {
     requestsPanel.classList.add("is-open");
     requestsPanel.setAttribute("aria-hidden", "false");
@@ -149,31 +185,41 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function closeRejectionDialog() {
     rejectionDialog.hidden = true;
-    requestPendingRejection = null;
+    requestPendingRejection = null; // Limpa a variável, já que cancelamos a rejeição
   }
 
+  // Remove a solicitação do array e renderiza a tela de novo
   function removeRequest(id) {
     const index = requests.findIndex((request) => request.id === id);
     if (index !== -1) requests.splice(index, 1);
     renderRequests();
   }
 
+  // Escutadores de eventos para os modais e painéis
   openRequestsButton.addEventListener("click", openRequests);
   closeRequestsButton.addEventListener("click", closeRequests);
   cancelRejectionButton.addEventListener("click", closeRejectionDialog);
 
+  // Quando clica no modal perguntando "Tem certeza que quer rejeitar?"
   confirmRejectionButton.addEventListener("click", () => {
     if (requestPendingRejection) removeRequest(requestPendingRejection);
     closeRejectionDialog();
   });
 
+  // =========================================================================
+  // 7. DELEGAÇÃO DE EVENTOS: CLIQUES NAS SOLICITAÇÕES
+  // =========================================================================
+  // Em vez de botar um "addEventListener" em CADA botão de aceitar/rejeitar, 
+  // escutamos os cliques no painel inteiro e verificamos se o que foi clicado foi um botão.
   requestsList.addEventListener("click", (event) => {
-    const button = event.target.closest("[data-action]");
-    if (!button) return;
-    const card = button.closest(".request-card");
+    const button = event.target.closest("[data-action]"); // Vê se clicou num botão de ação
+    if (!button) return; // Se não for botão, ignora
+    
+    const card = button.closest(".request-card"); // Acha a qual card o botão pertence
     const request = requests.find((item) => item.id === card.dataset.id);
     if (!request) return;
 
+    // Ação: Mostrar mais detalhes
     if (button.dataset.action === "toggle-details") {
       const details = card.querySelector(".request-details");
       details.hidden = !details.hidden;
@@ -181,20 +227,31 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
+    // ➔ AÇÃO: QUANDO CLICA EM ACEITAR
     if (button.dataset.action === "approve") {
+      // 1. Adiciona nos usuários aprovados
       users.push({ ...request, inactive: false });
+      // 2. Remove das solicitações pendentes
       removeRequest(request.id);
+      // 3. Renderiza a tela principal pra mostrar o novo funcionário
       renderUsers();
+      // FUTURO: Aqui vai entrar o fetch(POST) pro backend salvar a aprovação no banco!
       return;
     }
 
+    // ➔ AÇÃO: QUANDO CLICA EM REJEITAR
     if (button.dataset.action === "reject") {
+      // 1. Salva na variável global quem estamos querendo rejeitar
       requestPendingRejection = request.id;
+      // 2. Mostra o modal de confirmação ("Tem certeza?")
       rejectionDialog.hidden = false;
       confirmRejectionButton.focus();
     }
   });
 
+  // =========================================================================
+  // 8. DELEGAÇÃO DE EVENTOS: CLIQUES NOS USUÁRIOS ATIVOS
+  // =========================================================================
   usersList.addEventListener("click", (event) => {
     const button = event.target.closest("[data-action]");
     if (!button) return;
@@ -222,9 +279,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // =========================================================================
+  // 9. FUNÇÕES GLOBAIS (Ponte com o requests_panel.js)
+  // =========================================================================
+  // Essa função é acessada por aquele seu arquivo de requisição do backend
   window.addEmployeeRequest = (data) => {
+    // Cria um ID único caso o backend não mande um
     const id = data.id || `request-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+    // Adiciona o pedido no array
     requests.push({ id, name: data.name || "", lastName: data.lastName || "", role: data.role || "Não informado", department: data.department || "Não informado", email: data.email || "" });
+    // Refaz a tela com os dados novos
     renderRequests();
   };
 
@@ -233,6 +297,7 @@ document.addEventListener("DOMContentLoaded", () => {
     renderUsers();
   };
 
+  // Inicializa as duas telas vazias (ou com os dados iniciais)
   renderUsers();
   renderRequests();
 });
