@@ -211,15 +211,15 @@ document.addEventListener("DOMContentLoaded", () => {
   // =========================================================================
   // Em vez de botar um "addEventListener" em CADA botão de aceitar/rejeitar, 
   // escutamos os cliques no painel inteiro e verificamos se o que foi clicado foi um botão.
-  requestsList.addEventListener("click", (event) => {
-    const button = event.target.closest("[data-action]"); // Vê se clicou num botão de ação
-    if (!button) return; // Se não for botão, ignora
+    // 1. ADICIONE O 'async' AQUI NO EVENTO DE CLIQUE
+  requestsList.addEventListener("click", async (event) => {
+    const button = event.target.closest("[data-action]");
+    if (!button) return;
     
-    const card = button.closest(".request-card"); // Acha a qual card o botão pertence
+    const card = button.closest(".request-card");
     const request = requests.find((item) => item.id === card.dataset.id);
     if (!request) return;
 
-    // Ação: Mostrar mais detalhes
     if (button.dataset.action === "toggle-details") {
       const details = card.querySelector(".request-details");
       details.hidden = !details.hidden;
@@ -227,23 +227,50 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // ➔ AÇÃO: QUANDO CLICA EM ACEITAR
+    // ==========================================
+    // ➔ QUANDO CLICA EM ACEITAR
+    // ==========================================
     if (button.dataset.action === "approve") {
-      // 1. Adiciona nos usuários aprovados
-      users.push({ ...request, inactive: false });
-      // 2. Remove das solicitações pendentes
-      removeRequest(request.id);
-      // 3. Renderiza a tela principal pra mostrar o novo funcionário
-      renderUsers();
-      // FUTURO: Aqui vai entrar o fetch(POST) pro backend salvar a aprovação no banco!
+      
+      const token = localStorage.getItem('access_token');
+      
+      // Muda o texto do botão para dar um feedback visual
+      button.textContent = "Aprovando...";
+      button.disabled = true;
+
+      try {
+        // Envia o ID para o seu backend no Flask
+        const response = await fetch('http://127.0.0.1:5000/acept_user', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            // O request.id já foi capturado pelo seu código!
+            body: JSON.stringify({ "id_user": request.id }) 
+        });
+
+        if (response.ok) {
+            // Se o banco de dados atualizou com sucesso, aí sim alteramos a tela:
+            users.push({ ...request, inactive: false });
+            removeRequest(request.id);
+            renderUsers();
+        } else {
+            const result = await response.json();
+            alert(`Erro ao aprovar: ${result.message}`);
+            button.textContent = "Aceitar";
+            button.disabled = false;
+        }
+      } catch (error) {
+        console.error('Erro na requisição:', error);
+        button.textContent = "Aceitar";
+        button.disabled = false;
+      }
       return;
     }
 
-    // ➔ AÇÃO: QUANDO CLICA EM REJEITAR
     if (button.dataset.action === "reject") {
-      // 1. Salva na variável global quem estamos querendo rejeitar
       requestPendingRejection = request.id;
-      // 2. Mostra o modal de confirmação ("Tem certeza?")
       rejectionDialog.hidden = false;
       confirmRejectionButton.focus();
     }

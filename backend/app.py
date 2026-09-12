@@ -16,6 +16,7 @@ from src.presentation.department.route_select_all_departments import blueprint_s
 from src.presentation.department.route_get_departments_by_enterprise import blueprint_select_departments_by_enterprise
 
 from src.presentation.user_pf.route_get_all_requests import blueprint_get_all_requests
+from src.presentation.user_pf.route_approve_request import blueprint_acept_user
 
 app = Flask(__name__)
 
@@ -36,6 +37,7 @@ app.register_blueprint(blueprint_select_all_departments)
 app.register_blueprint(blueprint_select_all_enterprises)
 app.register_blueprint(blueprint_select_departments_by_enterprise)
 app.register_blueprint(blueprint_get_all_requests)
+app.register_blueprint(blueprint_acept_user)
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
