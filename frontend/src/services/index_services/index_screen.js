@@ -142,7 +142,6 @@ selectEnterprise.addEventListener('change', async (event) => {
         try {
         const response = await fetch(`http://127.0.0.1:5000/get_departments_by_enterprise`, {
             method: 'POST',
-            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -155,8 +154,7 @@ selectEnterprise.addEventListener('change', async (event) => {
 
         // CORREÇÃO 1: Mudando de 'entitys' para 'entity'
         const listaDepartamentos = result.entity || result;
-        console.log(listaDepartamentos);
-
+       
         if (Array.isArray(listaDepartamentos)) {
             listaDepartamentos.forEach(departamento => { // mudei para singular aqui para ficar mais semântico
                 const option = document.createElement('option');

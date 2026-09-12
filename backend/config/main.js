@@ -9,6 +9,10 @@ const createWindow = () => {
   const win = new BrowserWindow({
     width: 1280,
     height: 730,
+    webPreferences: {
+    // Mantenha o que você já tem configurado e adicione:
+      webSecurity: false 
+    }
   })
 
   // Usar path.join garante que o caminho funcione independente do SO
