@@ -145,8 +145,6 @@ selectEnterprise.addEventListener('change', async (event) => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            // Se o backend está aceitando apenas a string (como parece ser o caso pelo seu log), mantenha assim. 
-            // Se der erro de requisição depois, lembre-se de passar o objeto: body: JSON.stringify({"cnpj": cnpjSelecionado})
             body: JSON.stringify(cnpjSelecionado)
         });
 

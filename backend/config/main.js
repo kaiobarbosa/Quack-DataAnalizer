@@ -22,9 +22,12 @@ const createWindow = () => {
 app.whenReady().then(() => {
   // 1. Iniciar o servidor Flask em segundo plano
   const scriptPath = path.join(__dirname, '../app.py')
-  flaskProcess = spawn('python3', [scriptPath])
+  
+  // Dica: No Windows o comando geralmente é apenas 'python'. 
+  // Se estiver no Mac/Linux, mantenha 'python3'.
+  flaskProcess = spawn('python3', [scriptPath]) 
 
-  // 2. Capturar os logs do Python e mostrar no terminal do Electron (Excelente para debugar)
+  // 2. Capturar os logs do Python e mostrar no terminal do Electron
   flaskProcess.stdout.on('data', (data) => {
     console.log(`[Backend Flask]: ${data}`)
   })
@@ -33,8 +36,12 @@ app.whenReady().then(() => {
     console.error(`[Backend Flask]: ${data}`)
   })
 
-  // 3. Criar a janela visual após iniciar o backend
-  createWindow()
+  // SOLUÇÃO: Aguardar 2 segundos (2000 ms) para o Flask subir completamente
+  // antes de abrir a janela e disparar os fetchs do frontend.
+  setTimeout(() => {
+    // 3. Criar a janela visual após iniciar o backend
+    createWindow()
+  }, 2000);
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
@@ -42,6 +49,7 @@ app.whenReady().then(() => {
     }
   })
 })
+
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {

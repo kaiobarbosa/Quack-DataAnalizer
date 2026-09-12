@@ -61,30 +61,48 @@ async function register_enterprise() {
 }
 
 async function register_physical() {
-    console.log('function register employees');
+    console.log('Iniciando cadastro do funcionário...');
 
     const name_employee = document.getElementById('register-name').value;
     const lastname_employee = document.getElementById('register-last-name').value;
     const function_employee = document.getElementById('register-role').value;
     const department_employee = document.getElementById('register-department').value;
-    const enterprise_employee = document.getElementById('register-company').value; 
+    const enterprise_employee = document.getElementById('register-company').value;
+    const email_employee = document.getElementById('register-email').value;
+    const password_employee = document.getElementById('register-password').value;
+    const confirmed_password_employee = document.getElementById('register-confirm-password').value;
 
-    const email_shared = document.getElementById('register-email').value;
-    const password_shared = document.getElementById('register-password').value;
-    const confirm_password_shared = document.getElementById('register-confirm-password').value;
-
-    const employeeData = {
+    const userData = {
+        id: "",   
         name: name_employee,
         lastname: lastname_employee,
         function: function_employee,
         department: department_employee,
         enterprise: enterprise_employee,
-        email: email_shared,
-        password: password_shared,
-        confirmed_password: confirm_password_shared
+        email: email_employee,
+        password: password_employee,
+        confirmed_password: confirmed_password_employee
     };
-    
-    console.log("Data: ", employeeData);
-    
-    // Aqui virá o try/catch do fetch para a criação do funcionário!
+
+    try {
+        const response = await fetch('http://127.0.0.1:5000/create_enterprise', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(userData)
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            alert(`Erro: ${result.message}`);
+        } else {
+            console.log('Cadastro de empresa bem-sucedido:', result);
+            window.location.reload(); 
+        }
+    } catch (error) {
+        console.error('Erro de conexão com o servidor:', error);
+        alert('Não foi possível conectar ao servidor. Verifique se o Flask está rodando.');
+    }
 }

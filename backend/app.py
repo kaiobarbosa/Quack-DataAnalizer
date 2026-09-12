@@ -15,6 +15,8 @@ from src.presentation.department.route_create_department import blueprint_create
 from src.presentation.department.route_select_all_departments import blueprint_select_all_departments
 from src.presentation.department.route_get_departments_by_enterprise import blueprint_select_departments_by_enterprise
 
+from src.presentation.user_pf.route_get_all_requests import blueprint_get_all_requests
+
 app = Flask(__name__)
 
 # ATENÇÃO: supports_credentials=True é OBRIGATÓRIO para o navegador aceitar cookies via API
@@ -33,6 +35,7 @@ app.register_blueprint(blueprint_create_department)
 app.register_blueprint(blueprint_select_all_departments)
 app.register_blueprint(blueprint_select_all_enterprises)
 app.register_blueprint(blueprint_select_departments_by_enterprise)
+app.register_blueprint(blueprint_get_all_requests)
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
