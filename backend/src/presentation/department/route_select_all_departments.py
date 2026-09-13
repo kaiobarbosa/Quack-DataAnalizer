@@ -13,7 +13,7 @@ def select_all_departments(dados_token):
     print(f'CNPJ que fez a requisição dos departamentos: {cnpj_logado}')
 
     response_all_departments, status_code = select_all_departments_use_case(cnpj_logado)
-    print(response_all_departments)
+
 
     response = make_response(jsonify(response_all_departments), status_code)
 

@@ -38,9 +38,9 @@ async function get_all_requests() {
             }
             
         } else {
-            alert(`Erro: ${result.message}`);
+            console.log(`Nao ha solicitacoes`);
         }
     } catch (error) {
-        console.error('Erro ao buscar pedidos:', error);
+        console.log('Nao foi encontrado nenhuma requisicao');
     }
 }

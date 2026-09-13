@@ -205,6 +205,57 @@ document.addEventListener("DOMContentLoaded", () => {
     if (requestPendingRejection) removeRequest(requestPendingRejection);
     closeRejectionDialog();
   });
+  
+  // =========================================================================
+  //  DELEGAÇÃO DE EVENTOS: SELECT DOS FUNCIONARIOS
+  // =========================================================================
+
+    // =========================================================================
+  //  DELEGAÇÃO DE EVENTOS: SELECT DOS FUNCIONARIOS
+  // =========================================================================
+
+  // 1. ADICIONADO O 'async' AQUI
+  async function select_all_employees_of_enterprise() {
+      // 2. RESGATANDO O TOKEN
+      const token = localStorage.getItem('access_token');
+      
+      try {
+          const response = await fetch('http://127.0.0.1:5000/select_all_employees_of_enterprise', {
+              method: 'GET',
+              headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${token}`
+              }, 
+          });
+
+          const result = await response.json();
+
+          if (response.ok) {
+              const funcionarios = result.entity;
+              
+              if (Array.isArray(funcionarios)) {
+                  // 3. MAPEANDO OS DADOS DO BANCO PARA O FORMATO DA TELA
+                  const formattedUsers = funcionarios.map(func => ({
+                      id: func.id_user,
+                      name: func.name_user,
+                      lastName: func.lastname_user,
+                      role: func.function_user,
+                      department: func.departmant_user, // Aqui também deve vir o ID ou nome do departamento
+                      email: func.email_user,
+                      inactive: func.state_user === 'Inactive' // Se o banco retornar 'Inactive', ele marca como inativo
+                  }));
+
+                  // 4. JOGA A LISTA FORMATADA NA SUA FUNÇÃO GLOBAL
+                  window.setExistingEmployees(formattedUsers);
+              }
+          } else {
+              console.error(`Erro ao buscar funcionários: ${result.message}`);
+          }
+      } catch (error) {
+          console.error('Erro na requisição:', error);
+      }
+  }
+
 
   // =========================================================================
   // 7. DELEGAÇÃO DE EVENTOS: CLIQUES NAS SOLICITAÇÕES
@@ -327,4 +378,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // Inicializa as duas telas vazias (ou com os dados iniciais)
   renderUsers();
   renderRequests();
+
+  select_all_employees_of_enterprise()
 });
