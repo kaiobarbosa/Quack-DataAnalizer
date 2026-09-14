@@ -1,4 +1,4 @@
-from src.domain.enterprise_domain.validation_enterprise.validation_cnpj import validate_cnpj
+from src.domain.validation.validation_cnpj import validate_cnpj
 from src.infrastructure.external_services.verify_password import verify_password
 
 def enterprise_login(data):
