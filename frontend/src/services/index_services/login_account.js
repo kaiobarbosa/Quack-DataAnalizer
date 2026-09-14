@@ -50,6 +50,7 @@ async function loginEnterprise() {
             alert(`Erro: ${result.message}`);
         } else {
             localStorage.setItem('access_token', result.token);
+            localStorage.setItem('user_role', 'pf'); 
             console.log('Login bem-sucedido!');
             window.location.href = '../src/pages/home.html';
         }

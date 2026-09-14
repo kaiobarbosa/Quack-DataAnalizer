@@ -17,6 +17,7 @@ def login_enterprise():
     if status_code == 201:
         payload = {
             'enterprise_cnpj': response_data.get('enterprise_cnpj'), 
+            'role': 'pj',
             'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=2)
         }
         token = jwt.encode(payload, current_app.config['SECRET_KEY'], algorithm='HS256')

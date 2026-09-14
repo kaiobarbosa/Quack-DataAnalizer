@@ -23,6 +23,7 @@ def login_employee():
             "employee_department": response_data['employee_department'],
             "employee_enterprise": response_data['employee_enterprise'],
             "employee_email": response_data['employee_email'],
+            'role': 'pf',
             'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=2)
         }
         token = jwt.encode(payload, current_app.config['SECRET_KEY'], algorithm='HS256')
