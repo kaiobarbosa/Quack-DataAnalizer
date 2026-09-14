@@ -63,7 +63,7 @@ async function loginEnterprise() {
 // LOGIN PESSOA FÍSICA
 // ============================================================
 async function loginPhysical() {
-    const email_physical = document.getElementById('login-email').value;
+    const email_physical = document.getElementById('login-email-or-cpf').value;
     const password_physical = document.getElementById('login-password').value;
 
     const physical_data = {
@@ -72,7 +72,7 @@ async function loginPhysical() {
     };
 
     try {
-        const response = await fetch('http://127.0.0.1:5000/login_physical', {
+        const response = await fetch('http://127.0.0.1:5000/login_employee', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -84,6 +84,10 @@ async function loginPhysical() {
 
         if (!response.ok) {
             alert(`Erro: ${result.message}`);
+        } else {
+            localStorage.setItem('access_token', result.token);
+            console.log('Login bem-sucedido!');
+            window.location.href = '../src/pages/home.html';
         }
     } catch (error) {
         console.error('Erro de conexão com o servidor:', error);
