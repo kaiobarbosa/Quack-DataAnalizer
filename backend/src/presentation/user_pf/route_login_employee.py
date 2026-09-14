@@ -12,7 +12,8 @@ def login_employee():
     response_data, status_code = employee_login_use_case(brute_data)
     print(f"Response Data: {response_data}")
 
-    response = make_response(jsonify(response_data))
+    # CORREÇÃO: Passando o status_code para a resposta do Flask!
+    response = make_response(jsonify(response_data), status_code)
 
     if status_code == 201:
         payload = {
@@ -29,10 +30,12 @@ def login_employee():
         # Acopla no cookie (Para a Web)
         response.set_cookie('access_token', value=token, httponly=True, samesite='Lax', secure=False)
         
-        # ATUALIZAÇÃO: Envia também no JSON da resposta (Para o Electron)
+        # Envia também no JSON da resposta (Para o Electron)
         response_data['token'] = token 
         
-        # Atualiza a resposta com o novo JSON que agora tem o token
-        response.data = jsonify(response_data).data 
+        # Atualiza a resposta (mantendo o status_code 201)
+        response = make_response(jsonify(response_data), status_code)
+        # Acopla o cookie na nova resposta gerada também
+        response.set_cookie('access_token', value=token, httponly=True, samesite='Lax', secure=False)
 
     return response
