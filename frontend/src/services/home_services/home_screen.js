@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
         fetchDataEnterprise();
     } else if (userRole === 'pf') {
         console.log("Usuário logado: Pessoa Física (Funcionário)");
-        // Aqui você chamará a futura fetchDataEmployee()
+        fetchDataEmployee()
     }
 
 });
@@ -72,6 +72,59 @@ async function fetchDataEnterprise() {
             if (profileAvatarElement && name_enterprise) {
                 // Pega a primeira letra do nome da empresa e deixa maiúscula para o Avatar
                 profileAvatarElement.textContent = name_enterprise.charAt(0).toUpperCase();
+            }
+
+        } else {
+            console.error("Erro de autorização:", result.message);
+            // Se o token estiver expirado ou inválido, redireciona pro login 
+        }
+    } catch (error) {
+        console.error('Erro de conexão:', error);
+    }
+
+}
+
+async function fetchDataEmployee() {
+
+    try {
+        // Pega o token salvo no login
+        const token = localStorage.getItem('access_token');
+
+        const response = await fetch('http://127.0.0.1:5000/select_employee_data', {
+            method: 'GET',
+            credentials: 'include', 
+            headers: {
+                'Content-Type': 'application/json',
+                // Envia o token como Bearer (Para o Electron)
+                'Authorization': `Bearer ${token}` 
+            }
+        });
+
+        const result = await response.json();
+        if (response.ok) {
+            console.log("Dados carregados com sucesso!", result);
+            
+            const [name_employee, lastname_employee, email_employee] = result.entity;
+
+            // ============================================================
+            // ATUALIZANDO A NAVBAR
+            // ============================================================
+            
+            // 1. Seleciona a tag <strong> onde fica o nome do usuário
+            const profileNameElement = document.querySelector('#profile-button .profile-copy strong');
+            
+            // 2. Seleciona o "Avatar" (onde está a letra 'U')
+            const profileAvatarElement = document.querySelector('#profile-button .profile-avatar');
+
+            // 3. Verifica se os elementos existem na tela para evitar erros
+            if (profileNameElement) {
+                // Troca 'user' pelo nome da empresa retornado do banco
+                profileNameElement.textContent = name_employee; 
+            }
+
+            if (profileAvatarElement && name_employee) {
+                // Pega a primeira letra do nome da empresa e deixa maiúscula para o Avatar
+                profileAvatarElement.textContent = name_employee.charAt(0).toUpperCase();
             }
 
         } else {
