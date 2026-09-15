@@ -53,10 +53,6 @@ async function fetchDataEnterprise() {
             
             const [name_enterprise, cnpj_enterprise, email_enterprise] = result.entity;
 
-            console.log("Nome da Empresa:", name_enterprise);
-            console.log("CNPJ da Empresa:", cnpj_enterprise);
-            console.log("Email da Empresa:", email_enterprise);
-
             // ============================================================
             // ATUALIZANDO A NAVBAR
             // ============================================================
