@@ -71,20 +71,33 @@
     const profileNameElement = document.querySelector('#profile-button .profile-copy strong');
     const profileAvatarElement = document.querySelector('#profile-button .profile-avatar');
 
+    // Pega o token para fazer a requisição
+    const token = localStorage.getItem('access_token');
+    if (!token) return;
+
+    // Pega a role para saber qual rota chamar
+    const userRole = typeof window.getRoleFromToken === 'function' ? window.getRoleFromToken() : null;
+    if (!userRole) return;
+
     // 1. TENTA PEGAR DO CACHE PRIMEIRO (Para atualização visual instantânea)
-    const cachedName = localStorage.getItem('enterprise_name');
+    // Mudei o nome de 'enterprise_name' para 'user_display_name' para servir para ambos
+    const cachedName = localStorage.getItem('user_display_name');
     if (cachedName) {
         if (profileNameElement) profileNameElement.textContent = cachedName;
         if (profileAvatarElement) profileAvatarElement.textContent = cachedName.charAt(0).toUpperCase();
     }
 
     // 2. BUSCA NO BACKEND (Para garantir que os dados estão corretos)
-    const token = localStorage.getItem('access_token');
-    if (!token) return;
-
     try {
-        // Usando a porta 5000 que você manteve configurada no backend
-        const response = await fetch('http://127.0.0.1:5000/select_enterprise_data', {
+        // Define a rota dependendo de quem logou
+        let endpoint = '';
+        if (userRole === 'pj') {
+            endpoint = 'http://127.0.0.1:5000/select_enterprise_data';
+        } else if (userRole === 'pf') {
+            endpoint = 'http://127.0.0.1:5000/select_employee_data';
+        }
+
+        const response = await fetch(endpoint, {
             method: 'GET',
             credentials: 'include',
             headers: {
@@ -95,19 +108,31 @@
 
         if (response.ok) {
             const result = await response.json();
-            const [name_enterprise, cnpj, email] = result.entity;
+            
+            let displayName = 'Usuário';
+
+            // Trata a resposta baseado no tipo de usuário
+            if (userRole === 'pj') {
+                const [name_enterprise, cnpj, email] = result.entity;
+                displayName = name_enterprise;
+            } else if (userRole === 'pf') {
+                // Baseado na estrutura do seu home_screen_3.js
+                const [name_employee, lastname_employee, email_employee] = result.entity; 
+                displayName = name_employee;
+            }
 
             // Salva o nome no cache para as próximas telas carregarem rápido
-            localStorage.setItem('enterprise_name', name_enterprise);
+            localStorage.setItem('user_display_name', displayName);
 
             // Atualiza os elementos HTML (caso o cache estivesse vazio ou desatualizado)
-            if (profileNameElement) profileNameElement.textContent = name_enterprise;
-            if (profileAvatarElement) profileAvatarElement.textContent = name_enterprise.charAt(0).toUpperCase();
+            if (profileNameElement) profileNameElement.textContent = displayName;
+            if (profileAvatarElement) profileAvatarElement.textContent = displayName.charAt(0).toUpperCase();
         }
     } catch (error) {
         console.error('Erro ao atualizar perfil na navbar:', error);
     }
   }
+
 
   window.renderSidebar = renderSidebar;
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", () => renderSidebar());

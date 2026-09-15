@@ -36,12 +36,20 @@ def token_pj_obrigatorio(f):
 def token_pf_obrigatorio(f):
     @wraps(f)
     def decorador(*args, **kwargs):
-        token = request.cookies.get('access_token')
+        # 1. Libera a requisição invisível do CORS (OPTIONS)
+        if request.method == 'OPTIONS':
+            return jsonify({}), 200
 
+        token = None
+
+        # 2. Tenta pegar do Header PRIMEIRO (Sempre será o mais atualizado pelo seu JS)
+        auth_header = request.headers.get('Authorization')
+        if auth_header and auth_header.startswith('Bearer '):
+            token = auth_header.split(' ')[1]
+
+        # 3. Só se não tiver Header, tenta ler o cookie
         if not token:
-            auth_header = request.headers.get('Authorization')
-            if auth_header and auth_header.startswith('Bearer '):
-                token = auth_header.split(' ')[1]
+            token = request.cookies.get('access_token')
 
         if not token:
             return jsonify({'message': 'Acesso negado. Token não fornecido!'}), 401
@@ -49,7 +57,6 @@ def token_pf_obrigatorio(f):
         try:
             dados_token = jwt.decode(token, current_app.config['SECRET_KEY'], algorithms=['HS256'])
             
-            # --- AQUI ACONTECE A VERIFICAÇÃO DE SEGURANÇA ---
             if dados_token.get('role') != 'pf':
                 return jsonify({'message': 'Acesso negado. Apenas funcionários podem realizar esta ação!'}), 403
                 

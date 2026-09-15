@@ -20,6 +20,7 @@ from src.presentation.user_pf.route_approve_request import blueprint_acept_user
 from src.presentation.user_pf.route_select_all_employees_of_enterprise import blueprint_select_all_employees_of_enterprise
 from src.presentation.user_pf.route_create_employee import blueprint_create_user_pf
 from src.presentation.user_pf.route_login_employee import blueprint_login_employee
+from src.presentation.user_pf.route_select_employee_data import blueprint_select_employee_data
 
 app = Flask(__name__)
 
@@ -44,6 +45,7 @@ app.register_blueprint(blueprint_acept_user)
 app.register_blueprint(blueprint_select_all_employees_of_enterprise)
 app.register_blueprint(blueprint_create_user_pf)
 app.register_blueprint(blueprint_login_employee)
+app.register_blueprint(blueprint_select_employee_data)
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)

@@ -16,9 +16,11 @@ def entity_employee(data):
 def entity_employee_home(data):
 
     enterprise = (
-        data.get("name_enterprise"), 
-        data.get("cnpj_enterprise"), 
-        data.get("email_enterprise")
+        data.get("name_user"), 
+        data.get("lastname_user"), 
+        data.get("function_user"),
+        data.get("departmant_user"),
+        data.get("email_user")
     )
 
     return enterprise
