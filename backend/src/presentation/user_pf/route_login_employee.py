@@ -17,11 +17,6 @@ def login_employee():
 
     if status_code == 201:
         payload = {
-            "employee_name": response_data['employee_name'],
-            "employee_lastname": response_data['employee_lastname'],
-            "employee_function": response_data['employee_function'],
-            "employee_department": response_data['employee_department'],
-            "employee_enterprise": response_data['employee_enterprise'],
             "employee_email": response_data['employee_email'],
             'role': 'pf',
             'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=2)

@@ -27,11 +27,5 @@ def employee_login_use_case(data):
         return {"message": "Invalid password"}, 401
     else:
         return {
-            "message": "Employee login successfully",
-            "employee_name": employee_data['name_user'],
-            "employee_lastname": employee_data['lastname_user'],
-            "employee_function": employee_data['function_user'],
-            "employee_department": employee_data['departmant_user'],
-            "employee_enterprise": employee_data['enterprise_user'],
             "employee_email": employee_data['email_user']
         }, 201
