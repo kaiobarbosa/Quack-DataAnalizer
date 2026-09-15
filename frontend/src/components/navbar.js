@@ -14,7 +14,25 @@
     const container = document.getElementById(containerId || "navbar-container");
     if (!container) return;
 
-    // Desenha o HTML padrão
+    // Pega a role do usuário (usa a função global que definimos acima)
+    const userRole = typeof window.getRoleFromToken === 'function' ? window.getRoleFromToken() : null;
+
+    // Monta os botões que todo mundo (PF e PJ) pode ver
+    let navItemsHTML = `
+      <a id="home_button" class="nav-item" href="home.html"><span class="nav-icon" aria-hidden="true">⌂</span><span>Home</span></a>
+      <a id="upload_csv_button" class="nav-item" href="#carregar-csv"><span class="nav-icon" aria-hidden="true">↑</span><span>Carregar CSV</span></a>
+      <a id="reports_button" class="nav-item" href="#relatorios"><span class="nav-icon" aria-hidden="true">▤</span><span>Relatórios</span></a>
+    `;
+
+    // Se o usuário for empresa (PJ), adiciona os botões de administração
+    if (userRole === 'pj') {
+      navItemsHTML += `
+        <a id="employees_button" class="nav-item" href="employees.html"><span class="nav-icon" aria-hidden="true">⌁</span><span>Funcionários</span></a>
+        <a id="departments_button" class="nav-item" href="departmants.html"><span class="nav-icon" aria-hidden="true">⌁</span><span>Departamentos</span></a>
+      `;
+    }
+
+    // Injeta o HTML completo no container
     container.innerHTML = `
       <aside class="sidebar" aria-label="Navegação principal">
         <a class="sidebar-brand" href="home.html" aria-label="Quack Analytics - Início">
@@ -22,11 +40,7 @@
           <span class="brand-name">QUACK <small>ANALYTICS</small></span>
         </a>
         <nav class="sidebar-menu">
-          <a id="home_button" class="nav-item" href="home.html"><span class="nav-icon" aria-hidden="true">⌂</span><span>Home</span></a>
-          <a id = "upload_csv_button" class="nav-item" href="#carregar-csv"><span class="nav-icon" aria-hidden="true">↑</span><span>Carregar CSV</span></a>
-          <a id = "reports_button" class="nav-item" href="#relatorios"><span class="nav-icon" aria-hidden="true">▤</span><span>Relatórios</span></a>
-          <a id = "employees_button" class="nav-item" href="employees.html"><span class="nav-icon" aria-hidden="true">⌁</span><span>Funcionários</span></a>
-          <a id = "departments_button" class="nav-item" href="departmants.html"><span class="nav-icon" aria-hidden="true">⌁</span><span>Departamentos</span></a>
+          ${navItemsHTML}
         </nav>
         <a id="profile-button" class="profile-button" href="#perfil">
           <span class="profile-avatar" aria-hidden="true">U</span>
@@ -35,6 +49,7 @@
         </a>
       </aside>`;
 
+    // --- O resto da função continua igual ---
     const navigationItems = [...container.querySelectorAll('.nav-item')];
     const currentPage = window.location.pathname.split('/').pop() || 'home.html';
     const currentPageItem = navigationItems.find((item) => {

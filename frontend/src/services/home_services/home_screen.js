@@ -1,3 +1,20 @@
+function getRoleFromToken() {
+    const token = localStorage.getItem('access_token');
+    if (!token) return null;
+
+    try {
+        const payloadBase64 = token.split('.')[1];
+        const decodedJson = atob(payloadBase64);
+        const payload = JSON.parse(decodedJson);
+        return payload.role; 
+    } catch (error) {
+        console.error("Erro ao decodificar o token:", error);
+        return null;
+    }
+}
+// Tornando global para o navbar.js
+window.getRoleFromToken = getRoleFromToken;
+
 document.addEventListener("DOMContentLoaded", () => {
      
     const userRole = getRoleFromToken();
@@ -5,6 +22,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (userRole === 'pj') {
         console.log("Usuário logado: Pessoa Jurídica (Empresa)");
         fetchDataEnterprise();
+    } else if (userRole === 'pf') {
+        console.log("Usuário logado: Pessoa Física (Funcionário)");
+        // Aqui você chamará a futura fetchDataEmployee()
     }
 
 });
@@ -66,29 +86,4 @@ async function fetchDataEnterprise() {
         console.error('Erro de conexão:', error);
     }
 
-}
-
-async function getRoleFromToken() {
-    // 1. Pega o token salvo no localStorage
-    const token = localStorage.getItem('access_token');
-    if (!token) return null;
-
-    try {
-        // 2. O token tem o formato: header.payload.assinatura
-        // Pegamos a parte 1 (o payload, que é a segunda parte do array)
-        const payloadBase64 = token.split('.')[1];
-        
-        // 3. O JavaScript tem uma função nativa chamada atob() que decodifica Base64
-        const decodedJson = atob(payloadBase64);
-        
-        // 4. Transforma o JSON em um objeto JavaScript
-        const payload = JSON.parse(decodedJson);
-
-        // 5. Retorna o role que o backend Flask colocou lá!
-        return payload.role; // Vai retornar 'pj' ou 'pf'
-        
-    } catch (error) {
-        console.error("Erro ao decodificar o token:", error);
-        return null;
-    }
 }
