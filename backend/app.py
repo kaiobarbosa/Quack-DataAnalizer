@@ -22,6 +22,8 @@ from src.presentation.user_pf.route_create_employee import blueprint_create_user
 from src.presentation.user_pf.route_login_employee import blueprint_login_employee
 from src.presentation.user_pf.route_select_employee_data import blueprint_select_employee_data
 
+from src.presentation.logout_profile import blueprint_logout
+
 app = Flask(__name__)
 
 # ATENÇÃO: supports_credentials=True é OBRIGATÓRIO para o navegador aceitar cookies via API
@@ -46,6 +48,7 @@ app.register_blueprint(blueprint_select_all_employees_of_enterprise)
 app.register_blueprint(blueprint_create_user_pf)
 app.register_blueprint(blueprint_login_employee)
 app.register_blueprint(blueprint_select_employee_data)
+app.register_blueprint(blueprint_logout)
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)

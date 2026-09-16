@@ -38,6 +38,35 @@
     $("confirm-save-button").addEventListener("click", () => { const values = Object.fromEntries(new FormData(form).entries()); Object.keys(profile).forEach((key) => { if (values[key]?.trim()) profile[key] = values[key].trim(); }); renderProfile(); dialog.hidden = true; reset(); close(); });
   }
   function addReport(report) { reports.unshift(report); renderReports(); }
-  document.addEventListener("DOMContentLoaded", () => { renderProfile(); renderReports(); setPlaceholders(); initEditing(); });
+  function initLogout() {
+    $("logout-button").addEventListener("click", async () => {
+      const btn = $("logout-button");
+      
+      // Feedback visual opcional enquanto o backend processa
+      btn.textContent = "Saindo...";
+      btn.disabled = true;
+
+      try {
+        // 1. Chama a rota no backend para limpar os cookies (se houver)
+        await fetch('http://127.0.0.1:5000/logout', {
+            method: 'POST',
+            credentials: 'include'
+        });
+      } catch (error) {
+        console.error("Erro ao fazer logout no servidor:", error);
+      } finally {
+        // 2. Limpa os dados do LocalStorage garantindo que saia do sistema
+        // mesmo se a internet cair na hora do fetch
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("user_role");
+        localStorage.removeItem("user_display_name");
+        
+        // 3. Redireciona para a tela de login
+        window.location.href = "../../public/index.html"; // Ajuste o caminho se sua index não estiver nesta pasta raiz
+      }
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", () => { renderProfile(); renderReports(); setPlaceholders(); initEditing(); initLogout(); });
   window.profileReports = { add: addReport, list: reports };
 })();
