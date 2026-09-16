@@ -1,5 +1,24 @@
 /** Renderiza a navegação compartilhada das telas autenticadas. */
+/** Renderiza a navegação compartilhada das telas autenticadas. */
 (function () {
+  
+  // 1. INSERIMOS A FUNÇÃO AQUI PARA ELA EXISTIR EM TODAS AS TELAS
+  function getRoleFromToken() {
+    const token = localStorage.getItem('access_token');
+    if (!token) return null;
+    try {
+        const payloadBase64 = token.split('.')[1];
+        const decodedJson = atob(payloadBase64);
+        const payload = JSON.parse(decodedJson);
+        return payload.role; 
+    } catch (error) {
+        console.error("Erro ao decodificar o token:", error);
+        return null;
+    }
+  }
+  // Tornamos global para a Navbar e outras telas conseguirem usar
+  window.getRoleFromToken = getRoleFromToken;
+
   function setActiveItem(item, items) {
     items.forEach((navItem) => {
       navItem.classList.remove('active');
@@ -14,7 +33,7 @@
     const container = document.getElementById(containerId || "navbar-container");
     if (!container) return;
 
-    // Pega a role do usuário (usa a função global que definimos acima)
+    // 2. AGORA ELE SEMPRE VAI ACHAR A FUNÇÃO!
     const userRole = typeof window.getRoleFromToken === 'function' ? window.getRoleFromToken() : null;
 
     // Monta os botões que todo mundo (PF e PJ) pode ver
@@ -42,14 +61,14 @@
         <nav class="sidebar-menu">
           ${navItemsHTML}
         </nav>
-        <a id="profile-button" class="profile-button" href="#perfil">
+        <a id="profile-button" class="profile-button" href="profile.html">
           <span class="profile-avatar" aria-hidden="true">U</span>
           <span class="profile-copy"><small>CONTA</small><strong>user</strong></span>
           <span class="profile-more" aria-hidden="true">•••</span>
         </a>
       </aside>`;
 
-    // --- O resto da função continua igual ---
+    // --- O resto da função continua exatamente igual... ---
     const navigationItems = [...container.querySelectorAll('.nav-item')];
     const currentPage = window.location.pathname.split('/').pop() || 'home.html';
     const currentPageItem = navigationItems.find((item) => {
@@ -63,7 +82,6 @@
       item.addEventListener('click', () => setActiveItem(item, navigationItems));
     });
 
-    // Assim que injetar o HTML, chama a função para colocar o nome correto!
     updateProfileButton();
   }
 
