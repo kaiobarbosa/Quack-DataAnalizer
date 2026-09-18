@@ -27,16 +27,116 @@
     Object.entries(fields).forEach(([key, id]) => { $(id).placeholder = profile[key] || "Não informado"; });
   }
   function initEditing() {
-    const panel = $("edit-profile-panel"), form = $("profile-form"), save = $("save-profile-button"), dialog = $("save-dialog");
-    const close = () => { panel.classList.remove("is-open"); panel.setAttribute("aria-hidden", "true"); $("open-edit-button").setAttribute("aria-expanded", "false"); };
-    const reset = () => { form.reset(); save.disabled = true; setPlaceholders(); };
-    $("open-edit-button").addEventListener("click", () => { panel.classList.add("is-open"); panel.setAttribute("aria-hidden", "false"); $("open-edit-button").setAttribute("aria-expanded", "true"); $("profile-first-name").focus(); });
-    ["close-edit-button", "cancel-edit-button"].forEach((id) => $(id).addEventListener("click", () => { reset(); close(); }));
-    form.addEventListener("input", () => { save.disabled = ![...form.elements].some((field) => field.value.trim()); });
-    form.addEventListener("submit", (event) => { event.preventDefault(); dialog.hidden = false; });
-    $("cancel-save-button").addEventListener("click", () => { dialog.hidden = true; });
-    $("confirm-save-button").addEventListener("click", () => { const values = Object.fromEntries(new FormData(form).entries()); Object.keys(profile).forEach((key) => { if (values[key]?.trim()) profile[key] = values[key].trim(); }); renderProfile(); dialog.hidden = true; reset(); close(); });
+    const panel = $("edit-profile-panel");
+    const form = $("profile-form");
+    const save = $("save-profile-button");
+    const dialog = $("save-dialog");
+
+    const close = () => { 
+      panel.classList.remove("is-open"); 
+      panel.setAttribute("aria-hidden", "true"); 
+      $("open-edit-button").setAttribute("aria-expanded", "false"); 
+    };
+    
+    const reset = () => { 
+      form.reset(); 
+      save.disabled = true; 
+      // Chama a função global do update_user.js para resetar os placeholders
+      if (window.updateProfileDOM) window.updateProfileDOM(); 
+    };
+
+    $("open-edit-button").addEventListener("click", () => { 
+      panel.classList.add("is-open"); 
+      panel.setAttribute("aria-hidden", "false"); 
+      $("open-edit-button").setAttribute("aria-expanded", "true"); 
+      $("profile-first-name").focus(); 
+    });
+
+    ["close-edit-button", "cancel-edit-button"].forEach((id) => 
+      $(id).addEventListener("click", () => { reset(); close(); })
+    );
+
+    form.addEventListener("input", () => { 
+      save.disabled = ![...form.elements].some((field) => field.value.trim()); 
+    });
+
+    form.addEventListener("submit", (event) => { 
+      event.preventDefault(); 
+      dialog.hidden = false; 
+    });
+
+    $("cancel-save-button").addEventListener("click", () => { 
+      dialog.hidden = true; 
+    });
+
+    $("confirm-save-button").addEventListener("click", async () => { 
+      const btn = $("confirm-save-button");
+      btn.textContent = "Salvando...";
+      btn.disabled = true;
+
+      // 1. Extrai todos os valores do formulário e filtra os vazios
+      const values = Object.fromEntries(new FormData(form).entries());
+      const updatedData = {};
+      Object.keys(values).forEach((key) => {
+        if (values[key].trim() !== "") {
+          updatedData[key] = values[key].trim();
+        }
+      });
+
+      try {
+        const token = localStorage.getItem("access_token");
+        
+        // 2. VERIFICA A ROLE DO USUÁRIO
+        const userRole = typeof window.getRoleFromToken === 'function' 
+            ? window.getRoleFromToken() 
+            : localStorage.getItem('user_role');
+
+        // 3. DEFINE A ROTA CORRETA BASEADA NA ROLE
+        const endpoint = userRole === 'pj' 
+            ? 'http://127.0.0.1:5000/update_enterprise_data' 
+            : 'http://127.0.0.1:5000/update_employee_data';
+        
+        // 4. Envia os dados filtrados para a rota no Flask
+        const response = await fetch(endpoint, {
+            method: 'PUT', // Ou POST, dependendo de como você criar no Python
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(updatedData)
+        });
+
+        if (response.ok) {
+            // Se o banco atualizou, atualizamos o objeto global do update_user.js
+            Object.assign(window.currentUserProfile, updatedData);
+            
+            // Refaz a renderização do HTML com os dados novos
+            if (window.updateProfileDOM) window.updateProfileDOM();
+            
+            // Se o usuário atualizou o nome, também forçamos a Navbar a atualizar
+            if (updatedData.name && window.renderSidebar) {
+                localStorage.setItem('user_display_name', updatedData.name);
+                window.renderSidebar(); 
+            }
+            
+            dialog.hidden = true; 
+            reset(); 
+            close();
+        } else {
+            const result = await response.json();
+            alert(`Erro ao atualizar perfil: ${result.message}`);
+            dialog.hidden = true;
+        }
+      } catch (error) {
+        console.error("Erro na requisição de atualização:", error);
+        alert("Erro de conexão ao tentar salvar os dados.");
+      } finally {
+        btn.textContent = "Confirmar";
+        btn.disabled = false;
+      }
+    });
   }
+
   function addReport(report) { reports.unshift(report); renderReports(); }
   function initLogout() {
     $("logout-button").addEventListener("click", async () => {
