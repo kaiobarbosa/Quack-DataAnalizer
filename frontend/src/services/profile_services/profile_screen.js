@@ -75,15 +75,20 @@
       btn.disabled = true;
 
       // 1. Extrai todos os valores do formulário e filtra os vazios
+      const fullData = { ...window.currentUserProfile };
+      
+      // 2. Extrai os valores do formulário
       const values = Object.fromEntries(new FormData(form).entries());
-      const updatedData = {};
+      
+      // 3. Sobrescreve no fullData APENAS o que o usuário digitou
       Object.keys(values).forEach((key) => {
         if (values[key].trim() !== "") {
-          updatedData[key] = values[key].trim();
+          fullData[key] = values[key].trim();
         }
       });
 
       try {
+
         const token = localStorage.getItem("access_token");
         
         // 2. VERIFICA A ROLE DO USUÁRIO
@@ -103,19 +108,19 @@
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             },
-            body: JSON.stringify(updatedData)
+            body: JSON.stringify(fullData)
         });
 
         if (response.ok) {
             // Se o banco atualizou, atualizamos o objeto global do update_user.js
-            Object.assign(window.currentUserProfile, updatedData);
+            Object.assign(window.currentUserProfile, fullData);
             
             // Refaz a renderização do HTML com os dados novos
             if (window.updateProfileDOM) window.updateProfileDOM();
             
             // Se o usuário atualizou o nome, também forçamos a Navbar a atualizar
-            if (updatedData.name && window.renderSidebar) {
-                localStorage.setItem('user_display_name', updatedData.name);
+            if (fullData.name && window.renderSidebar) {
+                localStorage.setItem('user_display_name', fullData.name);
                 window.renderSidebar(); 
             }
             

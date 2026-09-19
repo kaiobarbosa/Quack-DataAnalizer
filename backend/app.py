@@ -21,6 +21,7 @@ from src.presentation.user_pf.route_select_all_employees_of_enterprise import bl
 from src.presentation.user_pf.route_create_employee import blueprint_create_user_pf
 from src.presentation.user_pf.route_login_employee import blueprint_login_employee
 from src.presentation.user_pf.route_select_employee_data import blueprint_select_employee_data
+from src.presentation.user_pf.route_update_employee_data import blueprint_update_employee_data
 
 from src.presentation.logout_profile import blueprint_logout
 
@@ -49,6 +50,7 @@ app.register_blueprint(blueprint_create_user_pf)
 app.register_blueprint(blueprint_login_employee)
 app.register_blueprint(blueprint_select_employee_data)
 app.register_blueprint(blueprint_logout)
+app.register_blueprint(blueprint_update_employee_data)
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)

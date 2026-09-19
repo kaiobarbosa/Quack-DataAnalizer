@@ -24,3 +24,15 @@ def entity_employee_home(data):
     )
 
     return enterprise
+
+def entity_employee_update(data):
+
+    employee = (
+        data.get('name'),
+        data.get('lastname'),
+        data.get('role'),
+        data.get('department'),
+        data.get('email')
+    )
+
+    return employee
