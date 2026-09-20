@@ -11,16 +11,111 @@
     <title>QUACK - Profile</title>
 </head>
 <body>
+
     <div id="navbar-container"></div>
     <main class="profile-page" aria-labelledby="profile-title">
-        <header class="profile-page-header"><div><p class="eyebrow">ÁREA DA CONTA</p><h1 id="profile-title">Meu perfil</h1><p class="header-description">Gerencie seus dados e consulte os relatórios criados por você.</p></div></header>
+        <header class="profile-page-header">
+            <div>
+                <p class="eyebrow">ÁREA DA CONTA</p>
+                <h1 id="profile-title">Meu perfil</h1>
+                <p class="header-description">Gerencie seus dados e consulte os relatórios criados por você.</p>
+            </div>
+        </header>
         <section class="profile-layout">
-            <article class="profile-card" aria-labelledby="profile-name"><div class="profile-card-heading"><span class="profile-avatar-large" id="profile-avatar" aria-hidden="true">U</span><div class="profile-summary"><p class="eyebrow">PERFIL DO USUÁRIO</p><h2 id="profile-name">Usuário</h2><p id="profile-role">Função não informada</p></div></div><dl class="profile-details"><div><dt>Nome completo</dt><dd id="profile-full-name">Usuário</dd></div><div><dt>Departamento</dt><dd id="profile-department">Não informado</dd></div><div><dt>E-mail</dt><dd id="profile-email">Não informado</dd></div></dl><div class="profile-card-actions"><button class="primary-button" id="open-edit-button" type="button" aria-expanded="false" aria-controls="edit-profile-panel">Editar informações</button><button class="logout-button" id="logout-button" type="button">Sair da conta</button></div></article>
-            <section class="reports-section" aria-labelledby="reports-title"><div class="section-heading"><div><p class="eyebrow">ATIVIDADE RECENTE</p><h2 id="reports-title">Histórico de relatórios</h2></div><span class="report-count" id="report-count">0 relatórios</span></div><div class="reports-grid" id="reports-grid" aria-live="polite"></div></section>
+            <article class="profile-card" aria-labelledby="profile-name">
+                <div class="profile-card-heading">
+                    <span class="profile-avatar-large" id="profile-avatar" aria-hidden="true">U</span>
+                    <div class="profile-summary">
+                        <p class="eyebrow">PERFIL DO USUÁRIO</p>
+                        <h2 id="profile-name">Usuário</h2>
+                        <p id="profile-role">Função não informada</p>
+                    </div>
+                </div>
+                <dl class="profile-details">
+                    <div>
+                        <dt id="label-full-name">Nome completo</dt>
+                        <dd id="profile-full-name">Usuário</dd>
+                    </div>
+                    <!-- Bloco visível apenas para PF -->
+                    <div class="pf-only">
+                        <dt>Departamento</dt>
+                        <dd id="profile-department">Não informado</dd>
+                    </div>
+                    <!-- Bloco visível apenas para PJ (escondido por padrão) -->
+                    <div class="pj-only" style="display: none;">
+                        <dt>CNPJ</dt>
+                        <dd id="profile-cnpj">Não informado</dd>
+                    </div>
+                    <div>
+                        <dt>E-mail</dt>
+                        <dd id="profile-email">Não informado</dd>
+                    </div>
+                </dl>
+
+                <div class="profile-card-actions">
+                    <button class="primary-button" id="open-edit-button" type="button" aria-expanded="false" aria-controls="edit-profile-panel">Editar informações</button>
+                    <button class="logout-button" id="logout-button" type="button">Sair da conta</button>
+                </div>
+            </article>
+            <section class="reports-section" aria-labelledby="reports-title">
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">ATIVIDADE RECENTE</p>
+                        <h2 id="reports-title">Histórico de relatórios</h2>
+                    </div>
+                    <span class="report-count" id="report-count">0 relatórios</span>
+                </div>
+                <div class="reports-grid" id="reports-grid" aria-live="polite"></div>
+            </section>
         </section>
-        <section class="edit-panel" id="edit-profile-panel" aria-labelledby="edit-profile-title" aria-hidden="true"><div class="edit-panel-card"><div class="edit-panel-header"><div><p class="eyebrow">DADOS PESSOAIS</p><h2 id="edit-profile-title">Editar informações</h2><p>Preencha somente os dados que deseja atualizar.</p></div><button class="close-button" id="close-edit-button" type="button" aria-label="Fechar edição">×</button></div><form class="profile-form" id="profile-form"><div class="form-field"><label for="profile-first-name">Nome</label><input id="profile-first-name" name="name" type="text" autocomplete="given-name" placeholder="Nome atual"></div><div class="form-field"><label for="profile-last-name">Sobrenome</label><input id="profile-last-name" name="lastname" type="text" autocomplete="family-name" placeholder="Sobrenome atual"></div><div class="form-field"><label for="profile-job">Função</label><input id="profile-job" name="role" type="text" autocomplete="organization-title" placeholder="Função atual"></div><div class="form-field"><label for="profile-department-input">Departamento</label><input id="profile-department-input" name="department" type="text" autocomplete="organization" placeholder="Departamento atual"></div><div class="form-field form-field-wide"><label for="profile-email-input">E-mail</label><input id="profile-email-input" name="email" type="email" autocomplete="email" placeholder="E-mail atual"></div><div class="form-actions"><button class="secondary-button" id="cancel-edit-button" type="button">Cancelar</button><button class="primary-button" id="save-profile-button" type="submit" disabled>Confirmar alterações</button></div></form></div></section>
+        <section class="edit-panel" id="edit-profile-panel" aria-labelledby="edit-profile-title" aria-hidden="true"
+        ><div class="edit-panel-card">
+            <div class="edit-panel-header">
+                <div>
+                    <p class="eyebrow">DADOS PESSOAIS</p>
+                    <h2 id="edit-profile-title">Editar informações</h2>
+                    <p>Preencha somente os dados que deseja atualizar.</p>
+                </div>
+                <button class="close-button" id="close-edit-button" type="button" aria-label="Fechar edição">×</button>
+            </div>
+            <form class="profile-form" id="profile-form">
+                <div class="form-field">
+                    <label for="profile-first-name" id="label-form-name">Nome</label>
+                    <input id="profile-first-name" name="name" type="text" autocomplete="given-name" placeholder="Nome atual">
+                </div>
+                <!-- Campos PF -->
+                <div class="form-field pf-only">
+                    <label for="profile-last-name">Sobrenome</label>
+                    <input id="profile-last-name" name="lastname" type="text" autocomplete="family-name" placeholder="Sobrenome atual">
+                </div>
+                <div class="form-field pf-only">
+                    <label for="profile-job">Função</label>
+                    <input id="profile-job" name="role" type="text" autocomplete="organization-title" placeholder="Função atual">
+                </div>
+                <div class="form-field pf-only">
+                    <label for="profile-department-input">Departamento</label>
+                    <input id="profile-department-input" name="department" type="text" autocomplete="organization" placeholder="Departamento atual">
+                </div>
+                <!-- Campos PJ -->
+                <div class="form-field pj-only" style="display: none;">
+                    <label for="profile-cnpj-input">CNPJ</label>
+                    <input id="profile-cnpj-input" name="cnpj" type="text" placeholder="CNPJ atual">
+                </div>
+                <!-- E-mail (Todos veem) -->
+                <div class="form-field form-field-wide">
+                    <label for="profile-email-input">E-mail</label>
+                    <input id="profile-email-input" name="email" type="email" autocomplete="email" placeholder="E-mail atual">
+                </div>
+                <div class="form-actions">
+                    <button class="secondary-button" id="cancel-edit-button" type="button">Cancelar</button>
+                    <button class="primary-button" id="save-profile-button" type="submit" disabled>Confirmar alterações</button>
+                </div>
+            </form>
+        </div>
+    </section>
         <div class="confirmation-dialog" id="save-dialog" role="dialog" aria-modal="true" aria-labelledby="save-dialog-title" hidden><div class="dialog-card"><span class="dialog-icon" aria-hidden="true">?</span><h2 id="save-dialog-title">Confirmar alterações?</h2><p>As informações preenchidas serão aplicadas ao seu perfil.</p><div class="dialog-actions"><button class="secondary-button" id="cancel-save-button" type="button">Cancelar</button><button class="primary-button" id="confirm-save-button" type="button">Confirmar</button></div></div></div>
     </main>
+
     <script src="../components/navbar.js"></script>
     <script src="../services/profile_services/profile_screen.js"></script>
     <script src="../services/profile_services/update_user_data.js"></script>
