@@ -19,3 +19,13 @@ def entity_enterprise_home(data):
     )
 
     return enterprise
+
+def entity_enterprise_update(data):
+
+    enterprise = (
+            data.get("name"), 
+            data.get("cnpj"), 
+            data.get("email"), 
+        )
+    
+    return enterprise

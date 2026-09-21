@@ -10,6 +10,7 @@ from src.presentation.enterprise.route_create_enterprise import blueprint_create
 from src.presentation.enterprise.login_enterprise_route import blueprint_login_enterprise
 from src.presentation.enterprise.route_select_enterprise_data import blueprint_select_enterprise_data
 from src.presentation.enterprise.route_select_all_enterprises import blueprint_select_all_enterprises
+from src.presentation.enterprise.route_update_enterprise_data import blueprint_update_enterprise_data
 
 from src.presentation.department.route_create_department import blueprint_create_department
 from src.presentation.department.route_select_all_departments import blueprint_select_all_departments
@@ -51,6 +52,7 @@ app.register_blueprint(blueprint_login_employee)
 app.register_blueprint(blueprint_select_employee_data)
 app.register_blueprint(blueprint_logout)
 app.register_blueprint(blueprint_update_employee_data)
+app.register_blueprint(blueprint_update_enterprise_data)
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)

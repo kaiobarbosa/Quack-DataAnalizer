@@ -1,6 +1,7 @@
 create database quack_db;
 
 use quack_db;
+SET SQL_SAFE_UPDATES = 0;
 
 create table enterprises(
 id_enterprise char(8) not null primary key unique,
@@ -45,6 +46,12 @@ INSERT INTO user_pf
 VALUES 
 ("12312312", "Kaio", "Barbosa", "Auxiliar", "CJo7P6vz", "07.689.002/0001-89", "teste@mgial.com", "testeteste");
 
+UPDATE user_pf 
+SET name_user = "Cleiton", lastname_user = "Barbosa", function_user = "Auxiliar", departmant_user = "CJo7P6vz", email_user = "trocoudnv@gmail.com" 
+WHERE email_user = "trocou@gmail.com";
+
+UPDATE enterprises set name_enterprise = "TROCOU", cnpj_enterprise = "54.516.661/0001-01", email_enterprise = "johnson@gmail.com" where cnpj_enterprise = "54.516.661/0001-01";
+
 drop table user_pf;
 drop table departmant;
 drop table enterprises;
@@ -52,6 +59,10 @@ drop table enterprises;
 delete from user_pf where id_user = "12312312";
 
 select * from user_pf where state_user = "Pending";
+select state_user from user_pf where email_user = "juliatursi19@gmail.com";
+
+delete from user_pf where name_user = "Kaio";
+select * from user_pf;
 select * from departmant;
 select * from enterprises;
 select id_departmant, name_departmant from departmant where enterprise_departmant = "07.689.002/0001-89";
